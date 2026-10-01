@@ -1,9 +1,15 @@
+import classNames from "classnames";
 import { ReactNode } from "react";
 
 interface IContainerProps {
   children: ReactNode;
+  className?: string;
 }
 
-export default function Container({ children }: IContainerProps) {
-  return <div className="mx-auto w-full max-w-480 px-15">{children}</div>;
+export default function Container({ children, className }: IContainerProps) {
+  return (
+    <div className={classNames("mx-auto w-full max-w-480 px-15", className)}>
+      {children}
+    </div>
+  );
 }

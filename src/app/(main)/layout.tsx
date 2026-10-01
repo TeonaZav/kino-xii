@@ -9,7 +9,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
       <Header />
 
       <main className="flex-1">
-        <Container>{children}</Container>
+       {children}
       </main>
 
       <Footer />

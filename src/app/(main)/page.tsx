@@ -1,5 +1,5 @@
 import ComingSoon from "@/src/features/home/components/ComingSoon";
-import Hero from "@/src/features/home/components/Hero";
+import Hero from "@/src/features/home/components/hero/Hero";
 import NowPlaying from "@/src/features/home/components/NowPlaying";
 import RecentlyViewed from "@/src/features/home/components/RecentlyViewed";
 

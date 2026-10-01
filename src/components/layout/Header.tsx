@@ -5,7 +5,7 @@ import Button from "../ui/Button";
 
 export default function Header() {
   return (
-    <header className="w-full bg-gradient-to-b from-black via-black/[0.51] to-transparent">
+    <header className="fixed top-0 left-0 z-50 right-0 w-full bg-linear-to-b from-black via-black/51 to-transparent">
       <div className="mx-auto flex max-w-480 items-center justify-between px-15 pt-8 pb-10">
         <div className="flex items-center gap-10">
           <Logo />
