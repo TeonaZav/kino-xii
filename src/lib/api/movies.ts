@@ -1,4 +1,4 @@
-import { FeaturedMoviesResponse } from "@/src/features/home/types";
+import { FeaturedMoviesResponse, Movie } from "@/src/types/movie.types";
 import api from "./client";
 
 export const searchMovies = async (query: string) => {
@@ -10,13 +10,11 @@ export const searchMovies = async (query: string) => {
 
   return data;
 };
+export const getNowPlayingMovies = async (): Promise<Movie[]> => {
+  const response = await api.get("/movies/now-playing");
 
-export const getNowPlayingMovies = async () => {
-  const { data } = await api.get("/movies/now-playing");
-
-  return data;
+  return response.data.data;
 };
-
 export const getComingSoonMovies = async () => {
   const { data } = await api.get("/movies/coming-soon");
 
