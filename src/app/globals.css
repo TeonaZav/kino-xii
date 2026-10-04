@@ -3,7 +3,6 @@
 @theme {
   --font-archivo: "Archivo", sans-serif;
 
-  /* Background */
   --color-page: #070c1c;
   --color-card: #1e2031;
   --color-raised: #2a2c3d;
@@ -19,7 +18,76 @@
 }
 
 @layer base {
+  html {
+    scrollbar-gutter: stable;
+  }
+
   body {
     @apply bg-page text-primary;
   }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@utility now-playing-carousel {
+  --carousel-gap: 17px;
+
+  --card-width: calc((100cqw - (0.3 * var(--carousel-gap))) / 1.3);
+
+  @media (min-width: 768px) {
+    --card-width: calc((100cqw - (1.3 * var(--carousel-gap))) / 3);
+  }
+
+  @media (min-width: 1024px) {
+    --card-width: calc((100cqw - (2.3 * var(--carousel-gap))) / 4.3);
+  }
+
+  @media (min-width: 1280px) {
+    --card-width: calc((100cqw - (3.3 * var(--carousel-gap))) / 5.3);
+  }
+
+  @media (min-width: 1536px) {
+    --card-width: min(15.05vw, 288.9px);
+  }
+
+  --card-height: calc(var(--card-width) * 452 / 260);
+
+  --expanded-card-width: calc(var(--card-width) * 447 / 260);
+}
+
+@utility now-playing-card-size {
+  width: var(--card-width);
+  height: var(--card-height);
+}
+
+@utility coming-soon-carousel {
+  --carousel-gap: 20px;
+
+  /* < 768px — 1.1 cards */
+  --card-width: calc((100cqw - (0.1 * var(--carousel-gap))) / 1.1);
+
+  /* 768px+ — ~1.5 cards */
+  @media (min-width: 768px) {
+    --card-width: calc((100cqw - (0.5 * var(--carousel-gap))) / 1.5);
+  }
+
+  @media (min-width: 1280px) {
+    --card-width: calc((100cqw - (2.3 * var(--carousel-gap))) / 2.3);
+  }
+  @media (min-width: 1536px) {
+    --card-width: min(27.2vw, 470px);
+  }
+
+  --card-height: calc(var(--card-width) * 160 / 470);
+}
+
+@utility coming-soon-card-size {
+  width: var(--card-width);
+  height: var(--card-height);
 }

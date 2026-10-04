@@ -1,23 +1,23 @@
-export interface Genre {
+export type Genre = {
   id: number;
   slug: string;
   name: string;
-}
+};
 
-export interface MovieFormat {
+export type MovieFormat = {
   id: number;
   slug: string;
   name: string;
   priceUplift: number;
-}
+};
 
-export interface AgeRating {
+export type AgeRating = {
   code: string;
   minAge: number;
   description: string;
-}
+};
 
-export interface Movie {
+export type Movie = {
   id: number;
   slug: string;
   title: string;
@@ -33,8 +33,9 @@ export interface Movie {
   ageRating: AgeRating;
   genres: Genre[];
   formats: MovieFormat[];
-}
+  synopsis?: string;
+};
 
-export interface FeaturedMoviesResponse {
+export type FeaturedMoviesResponse = {
   data: Movie[];
-}
+};

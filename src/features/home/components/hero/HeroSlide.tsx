@@ -2,12 +2,15 @@ import classNames from "classnames";
 import { motion } from "framer-motion";
 
 import Container from "@/src/components/layout/Container";
-import Button from "@/src/components/ui/Button";
-import { Icon } from "@/src/components/ui/icons";
+import { Button } from "@/src/components/ui";
 
-import { AUTOPLAY_DELAY, SLIDE_SPEED } from "./Hero";
 import HeroMovieInfo from "./HeroMovieInfo";
-import type { Movie } from "../../types";
+import BuyTicketButton from "../shared/BuyTicketButton";
+import type { Movie } from "../../../../types/movie.types";
+import {
+  getHeroBackgroundAnimation,
+  getHeroContentAnimation,
+} from "@/src/lib/constants/animations/heroAnimations";
 
 interface IHeroSlideProps {
   movie: Movie;
@@ -18,50 +21,41 @@ const HeroSlide = ({ movie, isActive }: IHeroSlideProps) => {
   return (
     <div className="relative h-full overflow-hidden">
       <motion.div
-        className="absolute inset-0 bg-cover bg-center"
+        {...getHeroBackgroundAnimation(isActive)}
+        className={classNames(
+          "absolute inset-0 bg-cover",
+          "bg-center",
+          "lg:bg-top",
+        )}
         style={{
           backgroundImage: `url("${movie.backdropUrl}")`,
-        }}
-        initial={false}
-        animate={{
-          scale: isActive ? 1.06 : 1,
-        }}
-        transition={{
-          duration: isActive ? AUTOPLAY_DELAY / 1000 + SLIDE_SPEED / 1000 : 0,
-          ease: "easeOut",
         }}
       />
 
       <div
         className={classNames(
           "absolute inset-0",
-          "bg-[linear-gradient(90deg,rgba(0,0,0,0.8)_0%,rgba(0,0,0,0.45)_40%,rgba(0,0,0,0.08)_100%)]",
+          "bg-[linear-gradient(90deg,rgba(0,0,0,0.1)_0%,rgba(0,0,0,1)_100%)]",
         )}
       />
 
       <Container className="relative z-10 h-full">
         <motion.div
-          initial={false}
-          animate={{
-            opacity: isActive ? 1 : 0,
-            y: isActive ? 0 : 16,
-          }}
-          transition={{
-            duration: 0.5,
-            ease: "easeOut",
-            delay: isActive ? 0.15 : 0,
-          }}
-          className="flex h-full max-w-140 flex-col justify-end gap-6 pb-31.25"
+          {...getHeroContentAnimation(isActive)}
+          className={classNames(
+            "mx-auto flex h-full w-full max-w-xl flex-col justify-end",
+            "gap-4 pb-20",
+            "sm:gap-5 sm:pb-24",
+            "md:pb-28",
+            "lg:mx-0 lg:max-w-140",
+            "2xl:gap-6 2xl:pb-44.75",
+          )}
         >
           <HeroMovieInfo movie={movie} />
 
-          <div className="flex items-center gap-3">
-            <Button variant="primary">
-              <Icon type="Movie" className="size-4" />
-              Buy tickets
-            </Button>
-
-            <Button variant="secondary">All sessions</Button>
+          <div className="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+            <BuyTicketButton showIcon />
+            <Button variant="light">All sessions</Button>
           </div>
         </motion.div>
       </Container>
