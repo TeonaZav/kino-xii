@@ -9,7 +9,7 @@ interface ICardInfoProps {
 
 const CardInfo = ({ movie }: ICardInfoProps) => {
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-4 justify-between">
+    <div className="flex min-h-0 flex-1 flex-col gap-2 justify-between">
       <div className="flex flex-col gap-1.75">
         <p className="text-red text-xs uppercase font-extrabold">
           {formatReleaseDateLabel(movie.releaseDate)}
@@ -31,7 +31,7 @@ const CardInfo = ({ movie }: ICardInfoProps) => {
 
       <Button
         variant="outline"
-        className="w-max py-1.5! px-3! text-primary text-xs"
+        className="w-max py-1.5! px-3! text-primary text-xs!"
       >
         <Icon type="Bell" className="size-4" /> Notify Me
       </Button>
