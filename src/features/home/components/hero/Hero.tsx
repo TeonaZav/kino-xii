@@ -1,68 +1,56 @@
 "use client";
 
-import { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade } from "swiper/modules";
-import type { Swiper as SwiperType } from "swiper";
 
 import "swiper/css";
 import "swiper/css/effect-fade";
 
 import { useFeaturedMovies } from "../../hooks/useFeaturedMovies";
+import useHeroSlider from "../../hooks/useHeroSlider";
+
+import { HeroSkeleton } from "@/src/components/ui";
 import HeroControls from "./HeroControls";
 import HeroSlide from "./HeroSlide";
-
-export const AUTOPLAY_DELAY = 6000;
-export const SLIDE_SPEED = 800;
+import HeroSection from "./HeroSection";
+import HeroError from "./HeroError";
+import {
+  AUTOPLAY_DELAY,
+  SLIDE_SPEED,
+} from "@/src/lib/constants/animations/heroAnimations";
 
 const Hero = () => {
-  const { data: movies = [], isLoading, isError } = useFeaturedMovies();
-  console.log(movies);
+  const {
+    data: movies = [],
+    isLoading,
+    isError,
+    refetch,
+  } = useFeaturedMovies();
 
-  const swiperRef = useRef<SwiperType | null>(null);
-
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [progressKey, setProgressKey] = useState(0);
-
-  const restartAutoplay = () => {
-    const swiper = swiperRef.current;
-
-    if (!swiper) return;
-
-    swiper.autoplay.stop();
-    swiper.autoplay.start();
-  };
-
-  const handleSlideChange = (swiper: SwiperType) => {
-    setActiveIndex(swiper.realIndex);
-    setProgressKey((prev) => prev + 1);
-  };
-
-  const handlePrevious = () => {
-    swiperRef.current?.slidePrev();
-    restartAutoplay();
-  };
-
-  const handleNext = () => {
-    swiperRef.current?.slideNext();
-    restartAutoplay();
-  };
-
-  const handlePaginationClick = (index: number) => {
-    swiperRef.current?.slideToLoop(index);
-    restartAutoplay();
-  };
+  const {
+    activeIndex,
+    progressKey,
+    handleSwiper,
+    handleSlideChange,
+    handlePrevious,
+    handleNext,
+    handlePaginationClick,
+  } = useHeroSlider();
 
   if (isLoading) {
-    return <div className="w-full aspect-1728/760 bg-page" />;
+    return <HeroSkeleton />;
   }
 
-  if (isError || !movies.length) {
+  if (isError) {
+    return <HeroError onRetry={() => refetch()} />;
+  }
+
+  if (!movies.length) {
     return null;
   }
 
   return (
-    <section className="relative w-full aspect-1728/760 overflow-hidden bg-page">
+    <HeroSection className="overflow-hidden">
       <Swiper
         modules={[Autoplay, EffectFade]}
         effect="fade"
@@ -74,9 +62,7 @@ const Hero = () => {
           delay: AUTOPLAY_DELAY,
           disableOnInteraction: false,
         }}
-        onSwiper={(swiper) => {
-          swiperRef.current = swiper;
-        }}
+        onSwiper={handleSwiper}
         onSlideChange={handleSlideChange}
         className="h-full"
       >
@@ -97,7 +83,7 @@ const Hero = () => {
           onPaginationClick={handlePaginationClick}
         />
       )}
-    </section>
+    </HeroSection>
   );
 };
 

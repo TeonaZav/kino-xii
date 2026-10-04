@@ -10,6 +10,7 @@ import Carousel from "./Carousel";
 import { Icon } from "./icons";
 import ComingSoonCardSkeleton from "./loaders/ComingSoonCardSkeleton";
 import NowPlayingCardSkeleton from "./loaders/NowPlayingCardSkeleton";
+import HeroSkeleton from "./loaders/HeroSkeleton";
 import SectionError from "./SectionError";
 export {
   Badge,
@@ -25,4 +26,5 @@ export {
   ComingSoonCardSkeleton,
   SectionError,
   NowPlayingCardSkeleton,
+  HeroSkeleton,
 };

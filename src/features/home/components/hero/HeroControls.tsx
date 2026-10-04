@@ -2,10 +2,11 @@ import classNames from "classnames";
 import { motion } from "framer-motion";
 
 import Container from "@/src/components/layout/Container";
-
 import CarouselNavigationButton from "./CarouselNavigationButton";
-import { AUTOPLAY_DELAY } from "./Hero";
-import type { Movie } from "../../types";
+
+import { heroProgressAnimation } from "@/src/lib/constants/animations/heroAnimations";
+
+import type { Movie } from "../../../../types/movie.types";
 
 interface IHeroControlsProps {
   movies: Movie[];
@@ -25,7 +26,7 @@ const HeroControls = ({
   onPaginationClick,
 }: IHeroControlsProps) => {
   return (
-    <Container className="pointer-events-none absolute inset-x-0 bottom-10.5 z-20">
+    <Container className="pointer-events-none absolute inset-x-0 bottom-5 z-20 2xl:bottom-10.5">
       <div className="flex items-center gap-5">
         <div className="pointer-events-auto flex flex-1 gap-2">
           {movies.map((movie, index) => {
@@ -44,14 +45,9 @@ const HeroControls = ({
               >
                 {isActive && (
                   <motion.span
+                    {...heroProgressAnimation}
                     key={`${movie.id}-${progressKey}`}
                     className="absolute inset-y-0 left-0 bg-red"
-                    initial={{ width: "0%" }}
-                    animate={{ width: "100%" }}
-                    transition={{
-                      duration: AUTOPLAY_DELAY / 1000,
-                      ease: "linear",
-                    }}
                   />
                 )}
               </button>
