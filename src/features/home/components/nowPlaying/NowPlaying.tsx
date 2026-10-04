@@ -2,20 +2,31 @@
 
 import Link from "next/link";
 
-import Container from "@/src/components/layout/Container";
-import { Carousel, SectionHeading } from "@/src/components/ui";
-
-import NowPlayingCard from "./NowPlayingCard";
-
 import { useNowPlayingMovies } from "../../hooks/useNowPlayingMovies";
 import useExpandableMovieCard from "../../hooks/useExpandableMovieCard";
+
+import Container from "@/src/components/layout/Container";
+import {
+  Carousel,
+  NowPlayingCardSkeleton,
+  SectionError,
+  SectionHeading,
+} from "@/src/components/ui";
+import NowPlayingCard from "./NowPlayingCard";
+
+const SKELETON_COUNT = 6;
 
 const NowPlaying = () => {
   const { expandedMovieId, handleCardClick } = useExpandableMovieCard();
 
-  const { data: movies = [], isLoading, isError } = useNowPlayingMovies();
+  const {
+    data: movies = [],
+    isLoading,
+    isError,
+    refetch,
+  } = useNowPlayingMovies();
 
-  if (isLoading || isError || !movies.length) {
+  if (!isLoading && !isError && !movies.length) {
     return null;
   }
 
@@ -25,26 +36,36 @@ const NowPlaying = () => {
         <div className="mb-6 flex items-center justify-between">
           <SectionHeading>Now Playing</SectionHeading>
 
-          <Link href="/sessions" className="text-sm font-semibold text-red">
-            See all
-          </Link>
+          {!isError && (
+            <Link href="/sessions" className="text-sm font-semibold text-red">
+              See all
+            </Link>
+          )}
         </div>
 
-        <Carousel
-          className="now-playing-carousel"
-          contentStyle={{
-            height: "calc(var(--card-width) * 452 / 260)",
-          }}
-        >
-          {movies.map((movie) => (
-            <NowPlayingCard
-              key={movie.id}
-              movie={movie}
-              isExpanded={expandedMovieId === movie.id}
-              onExpand={() => handleCardClick(movie.id)}
-            />
-          ))}
-        </Carousel>
+        {isError ? (
+          <SectionError onRetry={() => refetch()} />
+        ) : (
+          <Carousel
+            className="now-playing-carousel"
+            contentStyle={{
+              height: "calc(var(--card-width) * 452 / 260)",
+            }}
+          >
+            {isLoading
+              ? Array.from({ length: SKELETON_COUNT }).map((_, index) => (
+                  <NowPlayingCardSkeleton key={index} />
+                ))
+              : movies.map((movie) => (
+                  <NowPlayingCard
+                    key={movie.id}
+                    movie={movie}
+                    isExpanded={expandedMovieId === movie.id}
+                    onExpand={() => handleCardClick(movie.id)}
+                  />
+                ))}
+          </Carousel>
+        )}
       </Container>
     </section>
   );

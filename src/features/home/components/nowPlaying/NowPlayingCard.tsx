@@ -37,7 +37,7 @@ const NowPlayingCard = ({
 
       <div className="flex min-h-0 flex-1 flex-col gap-2 pt-3 pb-14">
         <div className="flex flex-col gap-2">
-          <h4 className="text-[20px] leading-none font-extrabold text-primary">
+          <h4 className="text-sm 2xl:text-[20px] leading-none font-extrabold text-primary">
             {movie.title}
           </h4>
 
@@ -50,7 +50,11 @@ const NowPlayingCard = ({
           </Badge>
         </div>
 
-        <MovieSynopsis synopsis={movie.synopsis} isExpanded={isExpanded} />
+        <MovieSynopsis
+          synopsis={movie.synopsis}
+          isExpanded={isExpanded}
+          className="text-secondary"
+        />
       </div>
 
       <CardFooter fromPrice={movie.fromPrice} />

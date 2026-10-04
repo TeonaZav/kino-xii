@@ -8,8 +8,7 @@ interface IMovieSynopsisProps {
   textClassName?: string;
 }
 
-const DEFAULT_TEXT_CLASSNAME =
-  "line-clamp-3 text-sm leading-[130%] text-secondary 2xl:line-clamp-4";
+const DEFAULT_TEXT_CLASSNAME = "line-clamp-1 2xl:line-clamp-2 2xl:line-clamp-3";
 
 const MovieSynopsis = ({
   synopsis,
@@ -24,12 +23,12 @@ const MovieSynopsis = ({
     <div
       title={synopsis}
       className={cn(
-        "cursor-default",
+        "cursor-default text-xs 2xl:text-sm leading-[130%]",
         collapsible && [
-          "max-h-0 overflow-hidden opacity-0",
-          "transition-[max-height,opacity] duration-300 ease-out",
-          "group-hover:max-h-24 group-hover:opacity-100",
-          isExpanded && "max-h-24 opacity-100",
+          "overflow-hidden opacity-0",
+          "transition-opacity duration-300 ease-out",
+          "group-hover:opacity-100",
+          isExpanded && "opacity-100",
         ],
         className,
       )}
