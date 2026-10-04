@@ -6,10 +6,11 @@ import Modal from "./Modal";
 import Pagination from "./Pagination";
 import SectionHeading from "./SectionHeading";
 import Spinner from "./Spinner";
-import CarouselFade from "./CarouselFade";
 import Carousel from "./Carousel";
 import { Icon } from "./icons";
-
+import ComingSoonCardSkeleton from "./loaders/ComingSoonCardSkeleton";
+import NowPlayingCardSkeleton from "./loaders/NowPlayingCardSkeleton";
+import SectionError from "./SectionError";
 export {
   Badge,
   Card,
@@ -19,7 +20,9 @@ export {
   Pagination,
   SectionHeading,
   Spinner,
-  CarouselFade,
   Carousel,
   Icon,
+  ComingSoonCardSkeleton,
+  SectionError,
+  NowPlayingCardSkeleton,
 };

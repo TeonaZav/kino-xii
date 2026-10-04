@@ -11,14 +11,14 @@ export const searchMovies = async (query: string) => {
   return data;
 };
 export const getNowPlayingMovies = async (): Promise<Movie[]> => {
-  const response = await api.get("/movies/now-playing");
+  const { data } = await api.get("/movies/now-playing");
 
-  return response.data.data;
+  return data.data;
 };
-export const getComingSoonMovies = async () => {
+export const getComingSoonMovies = async (): Promise<Movie[]> => {
   const { data } = await api.get("/movies/coming-soon");
 
-  return data;
+  return data.data;
 };
 
 export const getFeaturedMovies = async () => {
@@ -30,7 +30,7 @@ export const getFeaturedMovies = async () => {
 export const getMovie = async (movieId: number) => {
   const { data } = await api.get(`/movies/${movieId}`);
 
-  return data;
+  return data.data;
 };
 
 export const getMovieSessions = async (movieId: number, date?: string) => {
@@ -38,11 +38,11 @@ export const getMovieSessions = async (movieId: number, date?: string) => {
     params: date ? { date } : undefined,
   });
 
-  return data;
+  return data.data;
 };
 
 export const notifyMovie = async (movieId: number) => {
   const { data } = await api.post(`/movies/${movieId}/notify`);
 
-  return data;
+  return data.data;
 };

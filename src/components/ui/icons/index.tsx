@@ -4,6 +4,7 @@ import ChevronLeft from "./chevron-left.svg";
 import ChevronRight from "./chevron-right.svg";
 import Movie from "./movie-icon.svg";
 import Clock from "./clock-icon.svg";
+import Bell from "./bell-icon.svg";
 import { cn } from "@/src/lib/utils/cn";
 
 const IconMap = {
@@ -11,6 +12,7 @@ const IconMap = {
   ChevronRight,
   Movie,
   Clock,
+  Bell,
 };
 
 export type IconType = keyof typeof IconMap;
