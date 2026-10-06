@@ -14,13 +14,13 @@ export default function SectionHeading({
   ...props
 }: ISectionHeading) {
   return (
-    <div className="flex flex-col gap-1.5">
-      <h3
+    <div className="flex flex-col">
+      <h2
         {...props}
         className={classNames("text-2xl text-primary font-semibold", className)}
       >
         {children}
-      </h3>
+      </h2>
 
       {subheading && <p className="text-sm text-secondary">{subheading}</p>}
     </div>

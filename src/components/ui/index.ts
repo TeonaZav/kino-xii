@@ -9,6 +9,8 @@ import Carousel from "./Carousel";
 import { Icon } from "./icons";
 import ComingSoonCardSkeleton from "./loaders/ComingSoonCardSkeleton";
 import NowPlayingCardSkeleton from "./loaders/NowPlayingCardSkeleton";
+import SessionsFiltersSkeleton from "./loaders/SessionsFiltersSkeleton";
+import SessionsContentSkeleton from "./loaders/SessionsContentSkeleton";
 import HeroSkeleton from "./loaders/HeroSkeleton";
 import SectionError from "./SectionError";
 import Slider from "./Slider";
@@ -26,6 +28,8 @@ export {
   ComingSoonCardSkeleton,
   SectionError,
   NowPlayingCardSkeleton,
+  SessionsFiltersSkeleton,
   HeroSkeleton,
   Slider,
+  SessionsContentSkeleton,
 };

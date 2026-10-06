@@ -1,23 +1,24 @@
-import Pagination from "@/src/components/ui/Pagination";
-import SessionsFilters from "@/src/features/sessions/components/SessionsFilters";
-import SessionsHeader from "@/src/features/sessions/components/SessionsHeader";
-import SessionsList from "@/src/features/sessions/components/SessionsList";
-import SessionsSort from "@/src/features/sessions/components/SessionsSort";
+import Container from "@/src/components/layout/Container";
+import { SectionHeading } from "@/src/components/ui";
+import SessionsFilters from "@/src/features/sessions/components/filter/SessionsFilters";
+import SessionsContent from "@/src/features/sessions/components/SessionsContent";
 
-export default function Page() {
+export default function SessionsPage() {
   return (
-    <>
-      <SessionsHeader />
+    <Container className="py-8">
+      <SectionHeading subheading="Browse showtimes across all venues">
+        Sessions
+      </SectionHeading>
 
-      <div className="grid grid-cols-[...]">
-        <SessionsFilters />
+      <div className="mt-8 flex items-start gap-8">
+        <aside className="w-80 shrink-0 lg:block">
+          <SessionsFilters />
+        </aside>
 
-        <main>
-          <SessionsSort />
-          <SessionsList />
-          <Pagination />
+        <main className="min-w-0 flex-1">
+          <SessionsContent />
         </main>
       </div>
-    </>
+    </Container>
   );
 }
