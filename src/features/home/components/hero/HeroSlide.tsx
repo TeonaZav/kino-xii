@@ -5,13 +5,13 @@ import Container from "@/src/components/layout/Container";
 import { Button } from "@/src/components/ui";
 
 import HeroMovieInfo from "./HeroMovieInfo";
-import BuyTicketButton from "../shared/BuyTicketButton";
-import type { Movie } from "../../../../types/movie.types";
+
 import {
   getHeroBackgroundAnimation,
   getHeroContentAnimation,
 } from "@/src/lib/constants/animations/heroAnimations";
-
+import { BuyTicketButton } from "@/src/features/shared";
+import type { Movie } from "../../../../types/movie.types";
 interface IHeroSlideProps {
   movie: Movie;
   isActive: boolean;

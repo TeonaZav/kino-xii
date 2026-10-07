@@ -2,7 +2,7 @@ import cn from "classnames";
 
 import CardPoster from "./CardPoster";
 import CardFooter from "./CardFooter";
-import MovieSynopsis from "../shared/MovieSynopsis";
+import MovieSynopsis from "../../../../shared/MovieSynopsis";
 import { Badge, Card } from "@/src/components/ui";
 import type { Movie } from "@/src/types/movie.types";
 

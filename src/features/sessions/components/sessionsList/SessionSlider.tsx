@@ -1,6 +1,6 @@
 "use client";
 
-import { Slider } from "@/src/components/ui";
+import Slider from "@/src/components/ui/Slider";
 import SessionCard from "./SessionCard";
 import type { Session } from "@/src/types/session.types";
 

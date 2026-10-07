@@ -4,7 +4,7 @@ import { Icon } from "@/src/components/ui/icons";
 import type { Movie } from "../../../../types/movie.types";
 import { formatReleaseDate } from "@/src/lib/utils/formatDate";
 
-import MovieSynopsis from "../shared/MovieSynopsis";
+import MovieSynopsis from "../../../shared/MovieSynopsis";
 
 interface IHeroMovieInfoProps {
   movie: Movie;

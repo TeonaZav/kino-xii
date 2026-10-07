@@ -5,7 +5,6 @@ import Logo from "./Logo";
 import Modal from "./Modal";
 import SectionHeading from "./SectionHeading";
 import Spinner from "./Spinner";
-import Carousel from "./Carousel";
 import { Icon } from "./icons";
 import ComingSoonCardSkeleton from "./loaders/ComingSoonCardSkeleton";
 import NowPlayingCardSkeleton from "./loaders/NowPlayingCardSkeleton";
@@ -23,7 +22,6 @@ export {
   Modal,
   SectionHeading,
   Spinner,
-  Carousel,
   Icon,
   ComingSoonCardSkeleton,
   SectionError,
