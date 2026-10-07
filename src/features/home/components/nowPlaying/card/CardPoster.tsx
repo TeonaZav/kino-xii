@@ -7,7 +7,7 @@ interface IPosterProps {
 }
 
 const CardPoster = ({ src, alt, isExpanded }: IPosterProps) => (
-  <div
+  <figure
     className={cn(
       "h-[66.37%] w-full shrink-0 overflow-hidden rounded-[14px]",
       "transition-[height] duration-300 ease-out",
@@ -25,6 +25,6 @@ const CardPoster = ({ src, alt, isExpanded }: IPosterProps) => (
         isExpanded && "scale-[1.03]",
       )}
     />
-  </div>
+  </figure>
 );
 export default CardPoster;

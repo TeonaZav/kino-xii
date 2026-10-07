@@ -1,5 +1,5 @@
+import { BuyTicketButton } from "@/src/features/shared";
 import type { Movie } from "@/src/types/movie.types";
-import BuyTicketButton from "../shared/BuyTicketButton";
 
 interface ICardFooterProps {
   fromPrice: Movie["fromPrice"];

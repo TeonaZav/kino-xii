@@ -33,13 +33,7 @@ export const getMovie = async (movieId: number) => {
   return data.data;
 };
 
-export const getMovieSessions = async (movieId: number, date?: string) => {
-  const { data } = await api.get(`/movies/${movieId}/sessions`, {
-    params: date ? { date } : undefined,
-  });
 
-  return data.data;
-};
 
 export const notifyMovie = async (movieId: number) => {
   const { data } = await api.post(`/movies/${movieId}/notify`);

@@ -2,8 +2,9 @@ import cn from "classnames";
 
 import { Card } from "@/src/components/ui";
 import CardInfo from "./CardInfo";
-import ComingSoonPoster from "./ComingSoonPoster";
+
 import type { Movie } from "@/src/types/movie.types";
+import ComingSoonPoster from "./ComingSoonPoster";
 
 interface IComingSoonCardProps {
   movie: Movie;

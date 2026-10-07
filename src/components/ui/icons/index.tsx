@@ -1,11 +1,12 @@
 "use client";
 
+import { cn } from "@/src/lib/utils/cn";
 import ChevronLeft from "./chevron-left.svg";
 import ChevronRight from "./chevron-right.svg";
 import Movie from "./movie-icon.svg";
 import Clock from "./clock-icon.svg";
 import Bell from "./bell-icon.svg";
-import { cn } from "@/src/lib/utils/cn";
+import Check from "./check-icon.svg";
 
 const IconMap = {
   ChevronLeft,
@@ -13,6 +14,7 @@ const IconMap = {
   Movie,
   Clock,
   Bell,
+  Check,
 };
 
 export type IconType = keyof typeof IconMap;

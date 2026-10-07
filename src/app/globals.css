@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+@source "../../node_modules/@material-tailwind/react/**/*.{js,ts,jsx,tsx}";
 @theme {
   --font-archivo: "Archivo", sans-serif;
 
@@ -24,6 +25,17 @@
 
   body {
     @apply bg-page text-primary;
+    min-height: 100vh;
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    text-rendering: geometricPrecision;
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
@@ -90,4 +102,13 @@
 @utility coming-soon-card-size {
   width: var(--card-width);
   height: var(--card-height);
+}
+
+@utility session-card-size {
+  width: 252px;
+  height: 104px;
+}
+
+@utility shadow-button {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 }

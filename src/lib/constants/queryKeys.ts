@@ -1,3 +1,5 @@
+import type { SessionFilters } from "@/src/types/session.types";
+
 export const QUERY_KEYS = {
   movies: {
     all: ["movies"] as const,
@@ -5,5 +7,13 @@ export const QUERY_KEYS = {
     nowPlaying: ["movies", "now-playing"] as const,
     comingSoon: ["movies", "coming-soon"] as const,
     detail: (movieId: number) => ["movies", movieId] as const,
+  },
+
+  sessions: {
+    all: ["sessions"] as const,
+
+    list: (filters: SessionFilters) => ["sessions", "list", filters] as const,
+
+    filterOptions: ["sessions", "filter-options"] as const,
   },
 };

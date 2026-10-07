@@ -1,3 +1,5 @@
+import { AgeRating } from "./common";
+
 export type Genre = {
   id: number;
   slug: string;
@@ -9,12 +11,6 @@ export type MovieFormat = {
   slug: string;
   name: string;
   priceUplift: number;
-};
-
-export type AgeRating = {
-  code: string;
-  minAge: number;
-  description: string;
 };
 
 export type Movie = {
