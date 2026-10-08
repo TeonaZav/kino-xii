@@ -37,6 +37,9 @@
     text-rendering: geometricPrecision;
     -webkit-tap-highlight-color: transparent;
   }
+  .text-fluid-lg {
+    font-size: clamp(2rem, 4vw + 1rem, 6rem);
+  }
 }
 
 .no-scrollbar {
@@ -111,4 +114,25 @@
 
 @utility shadow-button {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+[data-floating-ui-portal] .fixed.w-screen.h-screen.bg-black {
+  background-color: rgb(16 16 16 / 30%) !important;
+  --tw-bg-opacity: 0.3 !important;
+
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff;
+
+  -webkit-box-shadow: 0 0 0 1000px #1e2031 inset !important;
+  box-shadow: 0 0 0 1000px #1e2031 inset !important;
+
+  transition: background-color 9999s ease-out 0s;
 }
