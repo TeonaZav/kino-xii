@@ -16,4 +16,12 @@ export const QUERY_KEYS = {
 
     filterOptions: ["sessions", "filter-options"] as const,
   },
+
+  auth: {
+    all: ["auth"] as const,
+    login: ["auth", "login"] as const,
+    register: ["auth", "register"] as const,
+    logout: ["auth", "logout"] as const,
+    user: ["auth", "user"] as const,
+  },
 };
