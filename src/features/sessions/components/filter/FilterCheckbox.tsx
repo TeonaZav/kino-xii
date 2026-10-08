@@ -19,7 +19,7 @@ const FilterCheckbox = ({
       checked={checked}
       label={children}
       ripple={false}
-      icon={<Icon type="Check" />}
+      icon={<Icon type="Check" className="size-2" />}
       crossOrigin={undefined}
       onChange={onChange}
       {...({} as any)}

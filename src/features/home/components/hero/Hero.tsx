@@ -17,7 +17,7 @@ import HeroError from "./HeroError";
 import {
   AUTOPLAY_DELAY,
   SLIDE_SPEED,
-} from "@/src/lib/constants/animations/heroAnimations";
+} from "@/src/lib/constants/animations/hero.animations";
 
 const Hero = () => {
   const {

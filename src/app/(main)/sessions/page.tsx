@@ -5,7 +5,7 @@ import SessionsContent from "@/src/features/sessions/components/SessionsContent"
 
 export default function SessionsPage() {
   return (
-    <Container className="py-8">
+    <Container className="pb-8">
       <SectionHeading subheading="Browse showtimes across all venues">
         Sessions
       </SectionHeading>

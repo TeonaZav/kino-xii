@@ -7,6 +7,12 @@ import Movie from "./movie-icon.svg";
 import Clock from "./clock-icon.svg";
 import Bell from "./bell-icon.svg";
 import Check from "./check-icon.svg";
+import Error from "./error-icon.svg";
+import User from "./user-icon.svg";
+import Logout from "./logout-icon.svg";
+import ChevronDown from "./chevron-down-icon.svg";
+import Input from "../input/Input";
+import ThreeDots from "./three-dots.svg";
 
 const IconMap = {
   ChevronLeft,
@@ -15,6 +21,12 @@ const IconMap = {
   Clock,
   Bell,
   Check,
+  Error,
+  User,
+  Logout,
+  ChevronDown,
+  Input,
+  ThreeDots,
 };
 
 export type IconType = keyof typeof IconMap;

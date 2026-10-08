@@ -2,7 +2,8 @@ import Badge from "./Badge";
 import Card from "./Card";
 import Button from "./Button";
 import Logo from "./Logo";
-import Modal from "./Modal";
+import Modal from "./modal/Modal";
+import ModalHeader from "./modal/ModalHeader";
 import SectionHeading from "./SectionHeading";
 import Spinner from "./Spinner";
 import { Icon } from "./icons";
@@ -13,6 +14,10 @@ import SessionsContentSkeleton from "./loaders/SessionsContentSkeleton";
 import HeroSkeleton from "./loaders/HeroSkeleton";
 import SectionError from "./SectionError";
 import Slider from "./Slider";
+import ActionFeedback from "./feedback/ActionFeedback";
+import AlertMessage from "./feedback/AlertMessage";
+import Input from "./input/Input";
+import StatusBanner from "./StatusBanner";
 
 export {
   Badge,
@@ -20,6 +25,7 @@ export {
   Button,
   Logo,
   Modal,
+  ModalHeader,
   SectionHeading,
   Spinner,
   Icon,
@@ -30,4 +36,8 @@ export {
   HeroSkeleton,
   Slider,
   SessionsContentSkeleton,
+  AlertMessage,
+  ActionFeedback,
+  Input,
+  StatusBanner,
 };
