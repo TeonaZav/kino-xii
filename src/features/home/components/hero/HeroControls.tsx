@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Container from "@/src/components/layout/Container";
 import CarouselNavigationButton from "./CarouselNavigationButton";
 
-import { heroProgressAnimation } from "@/src/lib/constants/animations/heroAnimations";
+import { heroProgressAnimation } from "@/src/lib/constants/animations/hero.animations";
 
 import type { Movie } from "../../../../types/movie.types";
 
