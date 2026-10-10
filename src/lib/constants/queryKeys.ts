@@ -29,4 +29,11 @@ export const QUERY_KEYS = {
     logout: ["auth", "logout"] as const,
     user: ["auth", "user"] as const,
   },
+
+  booking: {
+    all: ["booking"] as const,
+
+    sessionSeats: (sessionId: number) =>
+      ["booking", "session-seats", sessionId] as const,
+  },
 };

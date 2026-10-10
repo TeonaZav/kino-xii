@@ -136,3 +136,13 @@ input:-webkit-autofill:active {
 
   transition: background-color 9999s ease-out 0s;
 }
+
+@utility seat-held {
+  background: repeating-linear-gradient(
+    135deg,
+    #292b3b 0px,
+    #292b3b 5px,
+    #202232 5px,
+    #202232 10px
+  );
+}
