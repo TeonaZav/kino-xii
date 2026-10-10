@@ -11,6 +11,8 @@ interface IModalProps {
   children: ReactNode;
   className?: string;
   contentClassName?: string;
+  size?: "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
+  outsidePress?: boolean;
 }
 
 const Modal = ({
@@ -19,16 +21,18 @@ const Modal = ({
   children,
   className,
   contentClassName,
+  // size = "xs",
+  outsidePress = false,
 }: IModalProps) => {
   return (
     <Dialog
       open={open}
       handler={onClose}
-      size="xs"
+      // size={size}
       dismiss={{
         enabled: true,
         escapeKey: true,
-        outsidePress: false,
+        outsidePress,
       }}
       className={cn("bg-transparent shadow-none", className)}
       {...({} as any)}

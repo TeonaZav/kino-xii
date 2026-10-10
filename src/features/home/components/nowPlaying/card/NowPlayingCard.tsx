@@ -57,7 +57,7 @@ const NowPlayingCard = ({
         />
       </div>
 
-      <CardFooter fromPrice={movie.fromPrice} />
+      <CardFooter fromPrice={movie.fromPrice} movieSlug={movie.slug} />
     </Card>
   );
 };

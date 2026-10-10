@@ -1,45 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 import Link from "next/link";
 import cn from "classnames";
 
-import { Logo, Button } from "@/src/components/ui";
-
 import useAuth from "@/src/features/auth/hooks/useAuth";
+import { Logo, Button } from "@/src/components/ui";
 import UserDropdown from "@/src/features/profile/components/userMenu/UserDropdown";
 
 export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
-
   const { isAuthenticated, isAuthLoading, user, openLogin, openSignUp } =
     useAuth();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   return (
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 w-full",
         "transition-colors duration-300",
-        isScrolled
-          ? "bg-linear-to-b from-black via-black/51 to-transparent"
-          : "bg-linear-to-b from-black via-black/51 to-transparent",
+        "bg-linear-to-b from-black via-black/51 to-transparent",
       )}
     >
       <div className="mx-auto flex h-27.75 w-full max-w-480 items-center justify-between px-4 md:px-10 xl:px-15">
