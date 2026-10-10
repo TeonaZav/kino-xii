@@ -1,5 +1,6 @@
 import { FeaturedMoviesResponse, Movie } from "@/src/types/movie.types";
 import api from "./client";
+import { VenueSessionsResponse } from "@/src/types/session.types";
 
 export const searchMovies = async (query: string) => {
   const { data } = await api.get("/search", {
@@ -33,10 +34,25 @@ export const getMovie = async (movieId: number) => {
   return data.data;
 };
 
-
-
 export const notifyMovie = async (movieId: number) => {
   const { data } = await api.post(`/movies/${movieId}/notify`);
+
+  return data.data;
+};
+
+export const getMovieDetails = async (movieId: string) => {
+  const { data } = await api.get(`/movies/${movieId}`);
+
+  return data.data;
+};
+
+export const getMovieSessions = async (movieId: string, date: string) => {
+  const { data } = await api.get<VenueSessionsResponse>(
+    `/movies/${movieId}/sessions`,
+    {
+      params: { date },
+    },
+  );
 
   return data.data;
 };

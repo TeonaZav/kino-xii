@@ -43,3 +43,6 @@ export const parseTimeBandLabel = (label: string) => {
     description: match[2],
   };
 };
+
+export const formatNames = <T extends { name: string }>(items: T[]): string =>
+  items.map(({ name }) => name).join(", ");

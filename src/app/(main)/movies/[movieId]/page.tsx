@@ -1,4 +1,4 @@
-import MovieSessions from "@/src/features/movies/components/MovieSessions";
+import MovieDetails from "@/src/features/movies/components/movie-details/MovieDetails";
 
 interface IMovieDetailsPageProps {
   params: Promise<{
@@ -11,5 +11,5 @@ export default async function MovieDetailsPage({
 }: IMovieDetailsPageProps) {
   const { movieId } = await params;
 
-  return <MovieSessions />;
+  return <MovieDetails movieId={movieId} />;
 }

@@ -30,8 +30,10 @@ export type Movie = {
   genres: Genre[];
   formats: MovieFormat[];
   synopsis?: string;
+  director?: string;
+  cast?: string;
+  availableDates?: string[];
 };
-
 export type FeaturedMoviesResponse = {
   data: Movie[];
 };

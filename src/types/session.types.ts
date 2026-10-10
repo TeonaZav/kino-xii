@@ -118,3 +118,12 @@ export type SessionFilterOptions = {
   maxSeatsPerOrder: number;
   holdMinutes: number;
 };
+
+export type MovieVenuesList = {
+  venue: SessionVenue;
+  sessions: Session[];
+};
+
+export type VenueSessionsResponse = {
+  data: MovieVenuesList[];
+};

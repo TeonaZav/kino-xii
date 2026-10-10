@@ -1,8 +1,9 @@
 import cn from "classnames";
 
-import { Badge, Card, Icon } from "@/src/components/ui";
+import { Badge, Card } from "@/src/components/ui";
 import SessionVenue from "@/src/features/shared/SessionVenue";
 import type { Session } from "@/src/types/session.types";
+import { SessionAvailability } from "@/src/features/shared";
 
 interface ISessionCardProps {
   session: Session;
@@ -11,8 +12,6 @@ interface ISessionCardProps {
 const SessionCard = ({ session }: ISessionCardProps) => {
   const { time, format, language, seatsLeft, venue, hall, price, isSoldOut } =
     session;
-
-  const availabilityText = isSoldOut ? "Sold out" : `${seatsLeft} left`;
 
   const availabilityColor = isSoldOut
     ? "text-secondary"
@@ -42,13 +41,11 @@ const SessionCard = ({ session }: ISessionCardProps) => {
         <div className="flex items-center justify-between gap-1">
           <span className="text-xs text-secondary">{language.name}</span>
 
-          <span
-            className={cn("flex items-center gap-1 text-xs", availabilityColor)}
-          >
-            {!isSoldOut && <Icon type="Movie" />}
-
-            {availabilityText}
-          </span>
+          <SessionAvailability
+            isSoldOut={isSoldOut}
+            seatsLeft={seatsLeft}
+            availabilityColor={availabilityColor}
+          />
         </div>
       </div>
 

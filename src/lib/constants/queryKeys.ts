@@ -6,7 +6,12 @@ export const QUERY_KEYS = {
     featured: ["movies", "featured"] as const,
     nowPlaying: ["movies", "now-playing"] as const,
     comingSoon: ["movies", "coming-soon"] as const,
-    detail: (movieId: number) => ["movies", movieId] as const,
+
+    detail: (movieId: string | number) =>
+      ["movies", "detail", String(movieId)] as const,
+
+    sessions: (movieId: string | number, date: string) =>
+      ["movies", "detail", String(movieId), "sessions", date] as const,
   },
 
   sessions: {

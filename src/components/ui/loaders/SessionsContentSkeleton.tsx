@@ -1,8 +1,4 @@
-import { Card } from "@/src/components/ui";
-
-const Skeleton = ({ className = "" }: { className?: string }) => (
-  <div className={`animate-pulse rounded bg-raised/30 ${className}`} />
-);
+import { Card, Skeleton } from "@/src/components/ui";
 
 const SessionsContentSkeleton = () => {
   return (

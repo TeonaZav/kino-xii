@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 import cn from "classnames";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
@@ -16,6 +16,7 @@ interface ISliderProps<T> extends Omit<SwiperProps, "children"> {
   getKey: (item: T) => string | number;
   renderItem: (item: T) => ReactNode;
   slideClassName?: string;
+  getSlideClassName?: (item: T) => string;
   fadeEnd?: boolean;
 }
 
@@ -24,6 +25,7 @@ const Slider = <T,>({
   getKey,
   renderItem,
   slideClassName,
+  getSlideClassName,
   className,
   fadeEnd = false,
   onSwiper,
@@ -35,16 +37,36 @@ const Slider = <T,>({
   ...swiperProps
 }: ISliderProps<T>) => {
   const [isAtEnd, setIsAtEnd] = useState(true);
+  const swiperRef = useRef<SwiperType | null>(null);
 
   const sync = (swiper: SwiperType) => {
     setIsAtEnd(swiper.isEnd || swiper.isLocked);
   };
+
+  useEffect(() => {
+    const swiper = swiperRef.current;
+    if (!swiper || swiper.destroyed) return;
+
+    const observer = new ResizeObserver(() => {
+      if (swiper.destroyed) return;
+
+      swiper.update();
+      sync(swiper);
+    });
+
+    swiper.slides.forEach((slide) => {
+      observer.observe(slide);
+    });
+
+    return () => observer.disconnect();
+  }, [items]);
 
   return (
     <Swiper
       {...swiperProps}
       className={cn("w-full", className)}
       onSwiper={(swiper) => {
+        swiperRef.current = swiper;
         sync(swiper);
         onSwiper?.(swiper);
       }}
@@ -75,7 +97,10 @@ const Slider = <T,>({
       }
     >
       {items.map((item) => (
-        <SwiperSlide key={getKey(item)} className={slideClassName}>
+        <SwiperSlide
+          key={getKey(item)}
+          className={cn(slideClassName, getSlideClassName?.(item))}
+        >
           {renderItem(item)}
         </SwiperSlide>
       ))}

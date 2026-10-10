@@ -4,12 +4,14 @@ import cn from "classnames";
 
 type StatusBannerVariant = "success" | "warning" | "error" | "info";
 
-interface StatusBannerProps {
+interface IStatusBannerProps {
   variant?: StatusBannerVariant;
   title: string;
   description?: string;
   icon?: ReactNode;
   className?: string;
+  titleClassName?: string;
+  descriptionClassName?: string;
 }
 
 const variantStyles: Record<
@@ -43,7 +45,9 @@ const StatusBanner = ({
   description,
   icon,
   className,
-}: StatusBannerProps) => {
+  titleClassName,
+  descriptionClassName,
+}: IStatusBannerProps) => {
   const styles = variantStyles[variant];
 
   return (
@@ -55,6 +59,7 @@ const StatusBanner = ({
         className={cn(
           "flex items-center gap-1 text-sm leading-[100%] font-semibold",
           styles.text,
+          titleClassName,
         )}
       >
         <span>{title}</span>
@@ -62,7 +67,12 @@ const StatusBanner = ({
       </div>
 
       {description && (
-        <p className="mt-1 text-xs leading-[130%] text-secondary">
+        <p
+          className={cn(
+            "mt-1 text-xs leading-[130%] text-secondary",
+            descriptionClassName,
+          )}
+        >
           {description}
         </p>
       )}
