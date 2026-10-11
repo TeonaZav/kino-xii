@@ -1,7 +1,11 @@
+import { Suspense } from "react";
+
 import ProfilePageContent from "@/src/features/profile/components/ProfilePageContent";
 
-const Page = () => {
-  return <ProfilePageContent />;
-};
-
-export default Page;
+export default function ProfilePage() {
+  return (
+    <Suspense fallback={null}>
+      <ProfilePageContent />
+    </Suspense>
+  );
+}
