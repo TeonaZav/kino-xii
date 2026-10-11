@@ -11,24 +11,23 @@ interface IModalProps {
   children: ReactNode;
   className?: string;
   contentClassName?: string;
-  size?: "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
   outsidePress?: boolean;
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
 }
-
 const Modal = ({
   open,
   onClose,
   children,
   className,
   contentClassName,
-  // size = "xs",
   outsidePress = false,
+  size = "xs",
 }: IModalProps) => {
   return (
     <Dialog
       open={open}
       handler={onClose}
-      // size={size}
+      size={size}
       dismiss={{
         enabled: true,
         escapeKey: true,
@@ -52,5 +51,4 @@ const Modal = ({
     </Dialog>
   );
 };
-
 export default Modal;

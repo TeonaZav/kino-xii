@@ -8,6 +8,7 @@ import HeroMovieHeading from "./HeroMovieHeading";
 import MovieMetadata from "./MovieMetadata";
 import HeroBackgroundWrapper from "./HeroBackgroundWrapper";
 import SessionAvailability from "./SessionAvailability";
+import TicketSessionDetails from "./TicketSessionDetails";
 
 export {
   BuyTicketButton,
@@ -20,4 +21,5 @@ export {
   MovieMetadata,
   HeroBackgroundWrapper,
   SessionAvailability,
+  TicketSessionDetails,
 };

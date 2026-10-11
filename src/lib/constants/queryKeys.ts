@@ -1,4 +1,5 @@
 import type { SessionFilters } from "@/src/types/session.types";
+import { TicketFilter } from "@/src/types/ticket.types";
 
 export const QUERY_KEYS = {
   movies: {
@@ -28,5 +29,23 @@ export const QUERY_KEYS = {
     register: ["auth", "register"] as const,
     logout: ["auth", "logout"] as const,
     user: ["auth", "user"] as const,
+  },
+
+  booking: {
+    all: ["booking"] as const,
+
+    sessionSeats: (sessionId: number) =>
+      ["booking", "session-seats", sessionId] as const,
+  },
+
+  tickets: {
+    all: ["tickets"] as const,
+
+    list: (filter: TicketFilter) => ["tickets", "list", filter] as const,
+  },
+
+  profile: {
+    all: ["profile"] as const,
+    me: ["profile", "me"] as const,
   },
 };

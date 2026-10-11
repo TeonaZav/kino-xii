@@ -13,6 +13,8 @@ import Logout from "./logout-icon.svg";
 import ChevronDown from "./chevron-down-icon.svg";
 import Input from "../input/Input";
 import ThreeDots from "./three-dots.svg";
+import Close from "./close-icon.svg";
+import Calendar from "./calendar-icon.svg";
 
 const IconMap = {
   ChevronLeft,
@@ -27,6 +29,8 @@ const IconMap = {
   ChevronDown,
   Input,
   ThreeDots,
+  Close,
+  Calendar,
 };
 
 export type IconType = keyof typeof IconMap;

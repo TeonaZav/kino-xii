@@ -1,20 +1,33 @@
 "use client";
 
-import type { Session } from "@/src/types/session.types";
+import { useEffect } from "react";
 
 import { useMovieSessionsData } from "../../../hooks/useMovieSessionsData";
 import { useMovieSessionDates } from "../../../hooks/useMovieSessionDates";
+import { useRestoreMovieSession } from "../../../hooks/useRestoreMovieSession";
 
 import SessionDateSelector from "./SessionDateSelector";
 import SessionVenueList from "./SessionVenueList";
+
 import { AlertMessage, SessionVenueListSkeleton } from "@/src/components/ui";
+
+import type { Session } from "@/src/types/session.types";
 
 interface IMovieSessionsProps {
   movieId: string;
   onSessionSelect: (session: Session) => void;
+  onSessionRestored?: (session: Session) => void;
+  restoreSessionId?: number | null;
+  restoreDate?: string | null;
 }
 
-const MovieSessions = ({ movieId, onSessionSelect }: IMovieSessionsProps) => {
+const MovieSessions = ({
+  movieId,
+  onSessionSelect,
+  onSessionRestored,
+  restoreSessionId = null,
+  restoreDate = null,
+}: IMovieSessionsProps) => {
   const { dates, selectedDate, setSelectedDate } = useMovieSessionDates();
 
   const {
@@ -22,6 +35,23 @@ const MovieSessions = ({ movieId, onSessionSelect }: IMovieSessionsProps) => {
     isLoading,
     isError,
   } = useMovieSessionsData(movieId, selectedDate);
+
+  useEffect(() => {
+    if (!restoreDate || selectedDate === restoreDate) return;
+
+    setSelectedDate(restoreDate);
+  }, [restoreDate, selectedDate, setSelectedDate]);
+
+  const sessions = venues.flatMap((venue) => venue.sessions ?? []);
+
+  useRestoreMovieSession({
+    sessions,
+    restoreSessionId,
+    restoreDate,
+    selectedDate,
+    isReady: !isLoading && !isError,
+    onSessionRestored,
+  });
 
   return (
     <section className="flex min-w-0 flex-col gap-7">
@@ -31,15 +61,13 @@ const MovieSessions = ({ movieId, onSessionSelect }: IMovieSessionsProps) => {
         onDateSelect={setSelectedDate}
       />
 
-      {isLoading && <SessionVenueListSkeleton />}
-
-      {isError && (
+      {isLoading ? (
+        <SessionVenueListSkeleton />
+      ) : isError ? (
         <AlertMessage variant="error">
           Unable to load sessions. Please try again.
         </AlertMessage>
-      )}
-
-      {!isLoading && !isError && (
+      ) : (
         <SessionVenueList venues={venues} onSessionSelect={onSessionSelect} />
       )}
     </section>

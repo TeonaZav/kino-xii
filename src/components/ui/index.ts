@@ -12,12 +12,16 @@ import NowPlayingCardSkeleton from "./loaders/NowPlayingCardSkeleton";
 import SessionsFiltersSkeleton from "./loaders/SessionsFiltersSkeleton";
 import SessionsContentSkeleton from "./loaders/SessionsContentSkeleton";
 import SessionVenueListSkeleton from "./loaders/SessionVenueListSkeleton";
+import BookingModalSkeleton from "./loaders/BookingModalSkeleton";
+import PersonalInformationSkeleton from "./loaders/PersonalInformationSkeleton";
 import HeroSkeleton from "./loaders/HeroSkeleton";
 import SectionError from "./SectionError";
 import Slider from "./Slider";
 import ActionFeedback from "./feedback/ActionFeedback";
 import AlertMessage from "./feedback/AlertMessage";
 import Input from "./input/Input";
+import InputLabel from "./input/Label";
+import DatePicker from "./input/DatePicker";
 import StatusBanner from "./StatusBanner";
 import Skeleton from "./loaders/Skeleton";
 
@@ -38,10 +42,14 @@ export {
   HeroSkeleton,
   Slider,
   SessionsContentSkeleton,
+  PersonalInformationSkeleton,
   AlertMessage,
   ActionFeedback,
   Input,
+  InputLabel,
+  DatePicker,
   StatusBanner,
   Skeleton,
   SessionVenueListSkeleton,
+  BookingModalSkeleton,
 };

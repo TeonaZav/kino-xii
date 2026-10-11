@@ -33,3 +33,7 @@ export type ApiValidationErrorResponse = ApiErrorResponse & {
 export type AuthModalMode = "login" | "signup" | null;
 
 export type PendingAuthAction = (() => void) | null;
+
+export type GetMeResponse = {
+  data: AuthUser;
+};

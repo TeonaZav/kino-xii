@@ -136,3 +136,129 @@ input:-webkit-autofill:active {
 
   transition: background-color 9999s ease-out 0s;
 }
+
+@utility seat-held {
+  background: repeating-linear-gradient(
+    135deg,
+    #292b3b 0px,
+    #292b3b 5px,
+    #202232 5px,
+    #202232 10px
+  );
+}
+
+.kino-datepicker {
+  background: #1e2031;
+  border: 1px solid #2a2c3d;
+  border-radius: 12px;
+  color: #fff;
+  font-family: inherit;
+  overflow: hidden;
+}
+
+/* Header */
+.kino-datepicker .react-datepicker__header {
+  background: #1e2031;
+  border-bottom: 1px solid #2a2c3d;
+  padding: 12px 8px;
+}
+
+.kino-datepicker .react-datepicker__current-month {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.kino-datepicker .react-datepicker__header__dropdown {
+  margin-top: 12px;
+}
+
+.kino-datepicker .react-datepicker__month-select,
+.kino-datepicker .react-datepicker__year-select {
+  background: #2a2c3d;
+  color: #fff;
+  border: 0;
+  border-radius: 6px;
+  padding: 6px;
+}
+
+/* Calendar body */
+.kino-datepicker .react-datepicker__month-container,
+.kino-datepicker .react-datepicker__month {
+  background: #1e2031;
+}
+
+.kino-datepicker .react-datepicker__month {
+  margin: 8px;
+}
+
+/* Weekdays */
+.kino-datepicker .react-datepicker__day-names {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 12px;
+}
+
+.kino-datepicker .react-datepicker__day-name {
+  color: #a9a9a9;
+}
+
+/* Date grid */
+.kino-datepicker .react-datepicker__week {
+  display: flex;
+  justify-content: space-around;
+}
+
+.kino-datepicker .react-datepicker__day,
+.kino-datepicker .react-datepicker__day-name {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin: 2px;
+  line-height: 1;
+  font-size: 13px;
+}
+
+.kino-datepicker .react-datepicker__day {
+  color: #fff;
+  border-radius: 8px;
+}
+
+/* Hover */
+.kino-datepicker .react-datepicker__day:hover {
+  background: #2a2c3d;
+  color: #fff;
+}
+
+/* Selected */
+.kino-datepicker .react-datepicker__day--selected,
+.kino-datepicker .react-datepicker__day--keyboard-selected {
+  background: #ec3013;
+  color: #fff;
+}
+
+.kino-datepicker .react-datepicker__day--selected:hover {
+  background: #d42910;
+}
+
+/* Outside month / disabled */
+.kino-datepicker .react-datepicker__day--outside-month,
+.kino-datepicker .react-datepicker__day--disabled {
+  color: #505261;
+}
+
+.kino-datepicker .react-datepicker__day--disabled:hover {
+  background: transparent;
+}
+
+/* Navigation */
+.kino-datepicker .react-datepicker__navigation-icon::before {
+  border-color: #a9a9a9;
+}
+
+/* Triangle */
+.kino-datepicker .react-datepicker__triangle {
+  display: none;
+}
