@@ -33,3 +33,39 @@ export type SessionSeatMap = {
   };
   sections: HallSection[];
 };
+
+export type TicketTypeSlug = string;
+
+export type BookingTicketType = {
+  id: number;
+  slug: string;
+  name: string;
+  priceRatio: number;
+  note: string | null;
+  blockedFromRatingAge: number | null;
+};
+
+export type SelectedBookingSeat = {
+  seat: HallSeat;
+  ticketTypeSlug: TicketTypeSlug;
+};
+
+export type BookingHoldSeat = {
+  seatId: number;
+  code: string;
+  ticketType: {
+    slug: string;
+    name: string;
+  };
+  price: number;
+};
+
+export type BookingHold = {
+  holdId: string;
+  sessionId: number;
+  expiresAt: string;
+  secondsRemaining: number;
+  isLive: boolean;
+  subtotal: number;
+  seats: BookingHoldSeat[];
+};

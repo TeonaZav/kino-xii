@@ -28,3 +28,11 @@ export const formatFullReleaseDate = (date: string): string => {
     year: "numeric",
   });
 };
+
+export const formatBookingModalDate = (date: string): string => {
+  return new Intl.DateTimeFormat("en-GB", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  }).format(new Date(`${date}T12:00:00`));
+};
