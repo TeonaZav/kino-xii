@@ -32,7 +32,7 @@ const ProfilePageContent = () => {
   const venues = filterOptions?.venues ?? [];
 
   return (
-    <Container className="min-h-[70vh] py-10">
+    <Container className="min-h-[70vh] pb-10 pt-27.75">
       <div className="flex flex-col gap-6">
         <h1 className="text-2xl font-bold text-primary">My Profile</h1>
 

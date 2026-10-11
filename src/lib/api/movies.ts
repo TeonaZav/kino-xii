@@ -1,16 +1,19 @@
-import { FeaturedMoviesResponse, Movie } from "@/src/types/movie.types";
+import {
+  FeaturedMoviesResponse,
+  Movie,
+  SearchResponse,
+} from "@/src/types/movie.types";
 import api from "./client";
 import { VenueSessionsResponse } from "@/src/types/session.types";
 
-export const searchMovies = async (query: string) => {
-  const { data } = await api.get("/search", {
-    params: {
-      q: query,
-    },
+export const searchMovies = async (query: string): Promise<Movie[]> => {
+  const { data } = await api.get<SearchResponse>("/search", {
+    params: { q: query },
   });
 
-  return data;
+  return data.data;
 };
+
 export const getNowPlayingMovies = async (): Promise<Movie[]> => {
   const { data } = await api.get("/movies/now-playing");
 

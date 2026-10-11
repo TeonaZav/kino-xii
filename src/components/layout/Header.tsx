@@ -6,6 +6,7 @@ import cn from "classnames";
 import useAuth from "@/src/features/auth/hooks/useAuth";
 import { Logo, Button } from "@/src/components/ui";
 import UserDropdown from "@/src/features/profile/components/userMenu/UserDropdown";
+import HeaderSearch from "@/src/features/search/HeaderSearch";
 
 export default function Header() {
   const { isAuthenticated, isAuthLoading, user, openLogin, openSignUp } =
@@ -32,7 +33,9 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-8">
-          <div className="hidden md:block">search</div>
+          <div className="hidden md:block">
+            <HeaderSearch />
+          </div>
 
           {isAuthLoading ? (
             <div className="h-10 w-32 animate-pulse rounded-xl bg-card" />

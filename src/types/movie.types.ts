@@ -37,3 +37,7 @@ export type Movie = {
 export type FeaturedMoviesResponse = {
   data: Movie[];
 };
+
+export type SearchResponse = {
+  data: Movie[];
+};

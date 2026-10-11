@@ -15,6 +15,8 @@ import Input from "../input/Input";
 import ThreeDots from "./three-dots.svg";
 import Close from "./close-icon.svg";
 import Calendar from "./calendar-icon.svg";
+import Popcorn from "./popcorn-icon.svg";
+import Search from "./search-icon.svg";
 
 const IconMap = {
   ChevronLeft,
@@ -31,6 +33,8 @@ const IconMap = {
   ThreeDots,
   Close,
   Calendar,
+  Popcorn,
+  Search,
 };
 
 export type IconType = keyof typeof IconMap;
