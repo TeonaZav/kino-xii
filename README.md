@@ -4,7 +4,7 @@ Kino XII is a modern cinema ticket booking application built with Next.js, React
 
 ### 🌐 Live Demo
 
-**[Visit Kino XII](https://kino-aia92tjb6-teonazavs-projects.vercel.app/)**
+**[Visit Kino XII](https://kino-xii-eta.vercel.app/)**
 
 ## Features
 
@@ -61,4 +61,4 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 The project is deployed on **Vercel**.
 
-**Live URL:** https://kino-aia92tjb6-teonazavs-projects.vercel.app/
+**Live URL:** https://kino-xii-eta.vercel.app/
