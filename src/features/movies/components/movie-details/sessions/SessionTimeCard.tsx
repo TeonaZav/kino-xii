@@ -24,7 +24,7 @@ const SessionTimeCard = ({ session, onSelect }: ISessionTimeCardProps) => {
         "disabled:cursor-not-allowed disabled:opacity-40",
       )}
     >
-      <div className="flex min-h-20.25 min-w-31 flex-col items-center justify-center gap-2 px-5 py-3.75">
+      <div className="flex min-h-20.25 min-w-31 flex-col items-center justify-center gap-2 px-5 py-3.75 flex-1">
         <span className="text-xl leading-[100%] font-extrabold">{time}</span>
 
         <div className="flex items-center gap-1.5 text-xs text-secondary">

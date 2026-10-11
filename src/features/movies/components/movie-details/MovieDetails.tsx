@@ -1,9 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
+
+import { useAuth } from "@/src/features/auth";
 import { useMovieDetailsData } from "../../hooks/useMovieDetailsData";
-import Container from "@/src/components/layout/Container";
+import { useRestoreBooking } from "@/src/features/booking/hooks/useRestoreBooking";
+
 import { HeroSkeleton } from "@/src/components/ui";
+import Container from "@/src/components/layout/Container";
 import HeroError from "@/src/features/home/components/hero/HeroError";
 import BookingModal from "@/src/features/booking/components/BookingModal";
 import MovieSessions from "./sessions/MovieSessions";
@@ -23,20 +27,40 @@ const MovieDetails = ({ movieId }: IMovieDetailsProps) => {
     refetch,
   } = useMovieDetailsData(movieId);
 
+  const { user, isAuthLoading } = useAuth();
+
   const [selectedSession, setSelectedSession] = useState<Session | null>(null);
+  const [dismissedHoldId, setDismissedHoldId] = useState<string | null>(null);
 
-  const handleSessionSelect = (session: Session) => {
+  const { restoredBooking, isRestoring, restoreError } = useRestoreBooking({
+    movieId: movie ? String(movie.id) : null,
+    userId: user ? String(user.id) : null,
+    isAuthLoading,
+  });
+
+  const activeRestoredBooking =
+    restoredBooking && restoredBooking.hold.holdId !== dismissedHoldId
+      ? restoredBooking
+      : null;
+
+  const handleSessionSelect = useCallback((session: Session) => {
     setSelectedSession(session);
-  };
+  }, []);
 
-  const handleCloseBooking = () => {
+  const handleCloseBooking = useCallback(() => {
+    if (activeRestoredBooking) {
+      setDismissedHoldId(activeRestoredBooking.hold.holdId);
+    }
+
     setSelectedSession(null);
-  };
+  }, [activeRestoredBooking]);
 
-  if (isLoading) return <HeroSkeleton />;
+  if (isLoading) {
+    return <HeroSkeleton />;
+  }
 
   if (isError) {
-    return <HeroError onRetry={() => refetch()} />;
+    return <HeroError onRetry={() => void refetch()} />;
   }
 
   if (!movie) return null;
@@ -45,19 +69,42 @@ const MovieDetails = ({ movieId }: IMovieDetailsProps) => {
     <>
       <MovieDetailsHero movie={movie} />
 
-      <Container className="mx-auto flex flex-col xl:justify-between gap-12 py-8 xl:flex-row">
-        <MovieSessions
-          movieId={movieId}
-          onSessionSelect={handleSessionSelect}
-        />
+      <Container className="mx-auto flex flex-col gap-12 py-8 xl:flex-row xl:justify-between">
+        <div className="flex min-w-0 flex-col">
+          {isRestoring && (
+            <p className="mb-3 text-xs text-secondary">
+              Restoring your booking...
+            </p>
+          )}
+
+          {restoreError && (
+            <p role="alert" className="mb-3 text-xs text-red">
+              {restoreError}
+            </p>
+          )}
+
+          <MovieSessions
+            movieId={movieId}
+            onSessionSelect={handleSessionSelect}
+            restoreSessionId={activeRestoredBooking?.sessionId ?? null}
+            restoreDate={activeRestoredBooking?.sessionDate ?? null}
+            onSessionRestored={handleSessionSelect}
+          />
+        </div>
 
         <MovieInformation movie={movie} />
       </Container>
 
-      {selectedSession && (
+      {selectedSession && !isRestoring && (
         <BookingModal
+          key={`${selectedSession.id}-${activeRestoredBooking?.hold.holdId ?? "new"}`}
           movie={movie}
           session={selectedSession}
+          initialHold={
+            activeRestoredBooking?.sessionId === selectedSession.id
+              ? activeRestoredBooking.hold
+              : null
+          }
           onClose={handleCloseBooking}
         />
       )}

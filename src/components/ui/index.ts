@@ -12,6 +12,7 @@ import NowPlayingCardSkeleton from "./loaders/NowPlayingCardSkeleton";
 import SessionsFiltersSkeleton from "./loaders/SessionsFiltersSkeleton";
 import SessionsContentSkeleton from "./loaders/SessionsContentSkeleton";
 import SessionVenueListSkeleton from "./loaders/SessionVenueListSkeleton";
+import BookingModalSkeleton from "./loaders/BookingModalSkeleton";
 import HeroSkeleton from "./loaders/HeroSkeleton";
 import SectionError from "./SectionError";
 import Slider from "./Slider";
@@ -44,4 +45,5 @@ export {
   StatusBanner,
   Skeleton,
   SessionVenueListSkeleton,
+  BookingModalSkeleton,
 };

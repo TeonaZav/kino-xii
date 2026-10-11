@@ -1,90 +1,102 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useRef } from "react";
 
-import {
-  Tabs,
-  TabsHeader,
-  TabsBody,
-  Tab,
-  TabPanel,
-} from "@material-tailwind/react";
+import { useBookingModal } from "../hooks/useBookingModal";
+import { BookingModalSkeleton, Modal } from "@/src/components/ui";
+import { BookingProvider } from "../context/BookingContext";
+
+import BookingModalContent from "./BookingModalContent";
+import BookingErrorState from "./BookingErrorState";
 
 import type { Movie } from "@/src/types/movie.types";
 import type { Session } from "@/src/types/session.types";
-
-import { Modal } from "@/src/components/ui";
-
-type BookingStep = "seats" | "checkout";
+import type { BookingHold } from "@/src/types/booking.types";
 
 interface IBookingModalProps {
   movie: Movie;
   session: Session;
   onClose: () => void;
+  initialHold?: BookingHold | null;
+  onAuthenticationRequired?: () => void;
+  onProfileRequired?: () => void;
 }
 
-const bookingSteps = [
-  {
-    label: "1. Seats",
-    value: "seats",
-  },
-  {
-    label: "2. Checkout",
-    value: "checkout",
-  },
-] as const;
+const BookingModal = ({
+  movie,
+  session,
+  onClose,
+  initialHold = null,
+  onAuthenticationRequired,
+  onProfileRequired,
+}: IBookingModalProps) => {
+  const cancelRef = useRef<(() => Promise<void>) | null>(null);
 
-const BookingModal = ({ movie, session, onClose }: IBookingModalProps) => {
-  const [activeStep, setActiveStep] = useState<BookingStep>("seats");
+  const {
+    user,
+    openLogin,
+    isLoading,
+    isError,
+    handleRetry,
+    ...bookingOptions
+  } = useBookingModal({
+    sessionId: session.id,
+    initialHold,
+  });
+
+  const registerCancel = useCallback(
+    (handler: (() => Promise<void>) | null) => {
+      cancelRef.current = handler;
+    },
+    [],
+  );
+
+  const handleModalClose = useCallback(() => {
+    if (cancelRef.current) {
+      void cancelRef.current();
+      return;
+    }
+
+    onClose();
+  }, [onClose]);
+
+  const bookingProps = {
+    ...bookingOptions,
+    sessionId: session.id,
+    sessionDate: session.date,
+    movieId: String(movie.id),
+    userId: user ? String(user.id) : "",
+    movieMinAge: movie.ageRating.minAge,
+    initialHold,
+    onAuthenticationRequired: onAuthenticationRequired ?? openLogin,
+    onProfileRequired,
+  };
 
   return (
     <Modal
       open
-      onClose={onClose}
-      outsidePress
-      className="max-w-286.5!"
-      contentClassName="p-6!"
+      onClose={handleModalClose}
+      size="xl"
+      className="w-[calc(100vw-32px)]! max-w-360!"
+      contentClassName="py-6!"
     >
-      <div className="flex w-full flex-col gap-6">
-        <Tabs value={activeStep}>
-          <TabsHeader
-            className="rounded-full bg-card p-1"
-            indicatorProps={{
-              className: "rounded-full bg-red shadow-none",
-            }}
-            {...({} as any)}
-          >
-            {bookingSteps.map(({ label, value }) => (
-              <Tab
-                key={value}
-                value={value}
-                disabled={value === "checkout"}
-                onClick={() => setActiveStep(value)}
-                className="py-2 text-xs font-semibold text-primary"
-                {...({} as any)}
-              >
-                {label}
-              </Tab>
-            ))}
-          </TabsHeader>
-
-          <TabsBody {...({} as any)}>
-            <TabPanel value="seats" className="px-0 py-6 text-primary">
-              <p className="text-sm text-secondary">
-                {/* TODO Seat selection will be implemented here. */}
-              </p>
-            </TabPanel>
-
-            <TabPanel value="checkout" className="px-0 py-6 text-primary">
-              <div className="flex min-h-80 items-center justify-center rounded-xl bg-card">
-                <p className="text-sm text-secondary">
-                  {/* TODO Checkout will be implemented here. */}
-                </p>
-              </div>
-            </TabPanel>
-          </TabsBody>
-        </Tabs>
-      </div>
+      {isLoading ? (
+        <BookingModalSkeleton />
+      ) : isError ? (
+        <BookingErrorState onRetry={handleRetry} />
+      ) : (
+        <BookingProvider
+          key={`${session.id}-${initialHold?.holdId ?? "new"}`}
+          {...bookingProps}
+        >
+          <BookingModalContent
+            movie={movie}
+            session={session}
+            onClose={onClose}
+            registerCancel={registerCancel}
+          />
+        </BookingProvider>
+      )}
     </Modal>
   );
 };

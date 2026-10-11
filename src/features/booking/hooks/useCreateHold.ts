@@ -1,19 +1,23 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
-import { createHold, type CreateHoldPayload } from "@/src/lib/api/bookings";
+import { createHold } from "@/src/lib/api/bookings";
 
-import { QUERY_KEYS } from "@/src/lib/constants/queryKeys";
+import type { SelectedBookingSeat } from "@/src/types/booking.types";
 
-export const useCreateHold = (sessionId: number) => {
-  const queryClient = useQueryClient();
+interface ICreateHoldVariables {
+  sessionId: number;
+  selectedSeats: SelectedBookingSeat[];
+}
 
+export const useCreateHold = () => {
   return useMutation({
-    mutationFn: (payload: CreateHoldPayload) => createHold(sessionId, payload),
-
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.booking.sessionSeats(sessionId),
-      });
-    },
+    mutationFn: ({ sessionId, selectedSeats }: ICreateHoldVariables) =>
+      createHold(sessionId, {
+        seats: selectedSeats.map(({ seat, ticketTypeSlug }) => ({
+          seatId: seat.id,
+          ticketType: ticketTypeSlug,
+        })),
+      }),
+    retry: false,
   });
 };

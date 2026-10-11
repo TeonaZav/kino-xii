@@ -1,4 +1,3 @@
-
 import { Card } from "@/src/components/ui";
 
 import type { Session } from "@/src/types/session.types";
@@ -22,7 +21,7 @@ const SessionHall = ({
 
       <ul className="flex flex-wrap gap-2">
         {sessions.map((session) => (
-          <li key={session.id}>
+          <li key={session.id} className="flex-1">
             <SessionTimeButton session={session} onSelect={onSessionSelect} />
           </li>
         ))}

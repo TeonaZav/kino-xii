@@ -28,7 +28,7 @@ const SelectedSeatListItem = ({ selectedSeat }: ISelectedSeatCardProps) => {
   const isSubmitting = isUpdatingHold || isCancelling;
 
   return (
-    <Card as="li" className="flex flex-col rounded-2xl p-3.75 w-80.2 h-25.75">
+    <Card className="flex flex-col rounded-2xl p-3.75 w-80.2 h-25.75">
       <div className="w-full flex items-center gap-3 justify-between pb-3 border-b border-raised">
         <div className="text-xs flex items-center gap-3">
           <span className="text-secondary">Seat</span>
