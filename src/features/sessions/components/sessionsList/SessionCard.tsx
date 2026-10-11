@@ -1,17 +1,35 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import cn from "classnames";
+
+import useAuth from "@/src/features/auth/hooks/useAuth";
 
 import { Badge, Card } from "@/src/components/ui";
 import SessionVenue from "@/src/features/shared/SessionVenue";
-import type { Session } from "@/src/types/session.types";
 import { SessionAvailability } from "@/src/features/shared";
+
+import type { Session } from "@/src/types/session.types";
 
 interface ISessionCardProps {
   session: Session;
 }
 
 const SessionCard = ({ session }: ISessionCardProps) => {
-  const { time, format, language, seatsLeft, venue, hall, price, isSoldOut } =
-    session;
+  const router = useRouter();
+  const { requireAuth, isAuthLoading } = useAuth();
+
+  const {
+    time,
+    format,
+    language,
+    seatsLeft,
+    venue,
+    hall,
+    price,
+    isSoldOut,
+    movie,
+  } = session;
 
   const availabilityColor = isSoldOut
     ? "text-secondary"
@@ -19,10 +37,20 @@ const SessionCard = ({ session }: ISessionCardProps) => {
       ? "text-red"
       : "text-success";
 
+  const handleClick = () => {
+    if (isAuthLoading) return;
+
+    requireAuth(() => {
+      router.push(`/movies/${encodeURIComponent(movie.slug)}`);
+    });
+  };
+
   return (
     <Card
       as="button"
-      disabled={isSoldOut}
+      type="button"
+      disabled={isSoldOut || isAuthLoading}
+      onClick={handleClick}
       className={cn(
         "session-card-size flex flex-col justify-between gap-2",
         "rounded-2xl p-3.75",

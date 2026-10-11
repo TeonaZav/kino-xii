@@ -1,4 +1,8 @@
+"use client";
+
 import cn from "classnames";
+
+import useAuth from "@/src/features/auth/hooks/useAuth";
 
 import type { Session } from "@/src/types/session.types";
 
@@ -11,20 +15,30 @@ interface ISessionTimeCardProps {
 }
 
 const SessionTimeCard = ({ session, onSelect }: ISessionTimeCardProps) => {
+  const { requireAuth, isAuthLoading } = useAuth();
+
   const { time, language, format, price, seatsLeft, isSoldOut } = session;
+
+  const handleClick = () => {
+    if (isAuthLoading) return;
+
+    requireAuth(() => {
+      onSelect(session);
+    });
+  };
 
   return (
     <button
       type="button"
-      disabled={isSoldOut}
-      onClick={() => onSelect(session)}
+      disabled={isSoldOut || isAuthLoading}
+      onClick={handleClick}
       className={cn(
         "relative flex w-full overflow-hidden rounded-xl bg-page text-left",
         "transition-colors enabled:cursor-pointer enabled:hover:bg-page/80",
         "disabled:cursor-not-allowed disabled:opacity-40",
       )}
     >
-      <div className="flex min-h-20.25 min-w-31 flex-col items-center justify-center gap-2 px-5 py-3.75 flex-1">
+      <div className="flex min-h-20.25 min-w-31 flex-1 flex-col items-center justify-center gap-2 px-5 py-3.75">
         <span className="text-xl leading-[100%] font-extrabold">{time}</span>
 
         <div className="flex items-center gap-1.5 text-xs text-secondary">

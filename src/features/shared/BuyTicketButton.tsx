@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import cn from "classnames";
 
+import useAuth from "@/src/features/auth/hooks/useAuth";
+
 import { Button, Icon } from "@/src/components/ui";
 
 interface IBuyTicketButtonProps {
@@ -19,20 +21,28 @@ const BuyTicketButton = ({
   onClick,
 }: IBuyTicketButtonProps) => {
   const router = useRouter();
+  const { requireAuth, isAuthLoading } = useAuth();
 
   const handleClick = () => {
-    if (onClick) {
-      onClick();
-      return;
-    }
+    requireAuth(() => {
+      if (onClick) {
+        onClick();
+        return;
+      }
 
-    if (movieSlug) {
-      router.push(`/movies/${encodeURIComponent(movieSlug)}`);
-    }
+      if (movieSlug) {
+        router.push(`/movies/${encodeURIComponent(movieSlug)}`);
+      }
+    });
   };
 
   return (
-    <Button variant="primary" className={cn(className)} onClick={handleClick}>
+    <Button
+      variant="primary"
+      className={cn(className)}
+      onClick={handleClick}
+      disabled={isAuthLoading}
+    >
       {showIcon && <Icon type="Movie" className="size-4" />}
       Buy Ticket
     </Button>

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Button } from "@/src/components/ui";
 import { BuyTicketButton, HeroBackgroundWrapper } from "@/src/features/shared";
 import HeroMovieInfo from "./HeroMovieInfo";
@@ -17,7 +19,9 @@ const HeroSlide = ({ movie, isActive }: IHeroSlideProps) => {
       <div className="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
         <BuyTicketButton movieSlug={movie.slug} showIcon />
 
-        <Button variant="light">All sessions</Button>
+        <Link href="/sessions">
+          <Button variant="light">All sessions</Button>
+        </Link>
       </div>
     </HeroBackgroundWrapper>
   );

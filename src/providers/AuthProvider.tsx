@@ -234,7 +234,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const requireAuth = useCallback(
     (action: () => void) => {
-      if (token) {
+      if (isAuthLoading) return;
+
+      if (token && user) {
         action();
         return;
       }
@@ -242,9 +244,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       pendingActionRef.current = action;
       setAuthMode("login");
     },
-    [token],
+    [token, user, isAuthLoading],
   );
-
   const handleAuthSuccess = useCallback((data: AuthData) => {
     authVersionRef.current += 1;
 

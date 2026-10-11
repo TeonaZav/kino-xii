@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { Badge } from "@/src/components/ui";
 import type { Movie } from "@/src/types/movie.types";
@@ -10,7 +11,10 @@ interface ISessionHeaderProps {
 
 const SessionHeader = ({ movie }: ISessionHeaderProps) => {
   return (
-    <div className="flex items-center gap-4">
+    <Link
+      href={`/movies/${encodeURIComponent(movie.slug)}`}
+      className="flex w-fit items-center gap-4"
+    >
       <figure className="relative h-20 w-14 shrink-0 overflow-hidden rounded-lg">
         <Image
           src={movie.posterUrl}
@@ -30,7 +34,7 @@ const SessionHeader = ({ movie }: ISessionHeaderProps) => {
 
         <p className="text-sm text-secondary">{movie.runtimeMinutes} min</p>
       </div>
-    </div>
+    </Link>
   );
 };
 
