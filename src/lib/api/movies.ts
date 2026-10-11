@@ -34,8 +34,10 @@ export const getMovie = async (movieId: number) => {
   return data.data;
 };
 
-export const notifyMovie = async (movieId: number) => {
-  const { data } = await api.post(`/movies/${movieId}/notify`);
+export const notifyMovie = async (movieSlug: string) => {
+  const { data } = await api.post(
+    `/movies/${encodeURIComponent(movieSlug)}/notify`,
+  );
 
   return data.data;
 };
