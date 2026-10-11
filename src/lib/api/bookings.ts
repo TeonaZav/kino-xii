@@ -1,4 +1,6 @@
 import api from "./client";
+
+import { CreateOrderPayload, PaidOrder } from "@/src/types/checkout.types";
 import type { SessionSeatMap, BookingHold } from "@/src/types/booking.types";
 export interface CreateHoldPayload {
   seats: {
@@ -38,4 +40,12 @@ export const getHold = async (holdId: string): Promise<BookingHold> => {
 
 export const releaseHold = async (holdId: string): Promise<void> => {
   await api.delete(`/holds/${encodeURIComponent(holdId)}`);
+};
+
+export const createOrder = async (
+  payload: CreateOrderPayload,
+): Promise<PaidOrder> => {
+  const { data } = await api.post<{ data: PaidOrder }>("/orders", payload);
+
+  return data.data;
 };

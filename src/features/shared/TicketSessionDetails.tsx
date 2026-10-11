@@ -1,11 +1,10 @@
 import cn from "classnames";
 
 import { formatBookingModalDate } from "@/src/lib/utils/formatDate";
-
-import type { Session } from "@/src/types/session.types";
+import type { TicketSessionInfo } from "@/src/types/booking.types";
 
 interface ITicketSessionDetailsProps {
-  session: Session;
+  session: TicketSessionInfo;
   showVenue?: boolean;
   showFormat?: boolean;
   showLanguage?: boolean;
@@ -26,8 +25,8 @@ const TicketSessionDetails = ({
     `Hall ${session.hall.name}`,
     formattedDate,
     session.time,
-    showFormat && session.format.name,
-    showLanguage && session.language.name,
+    showFormat && session.format?.name,
+    showLanguage && session.language?.name,
   ]
     .filter(Boolean)
     .join(" · ");

@@ -1,7 +1,7 @@
 "use client";
 
 import { forwardRef, type InputHTMLAttributes } from "react";
-import { useFormContext, useWatch } from "react-hook-form";
+import { useFormContext, useFormState, useWatch } from "react-hook-form";
 import cn from "classnames";
 
 import useDebouncedFieldError from "@/src/hooks/useDebouncedFieldError";
@@ -30,7 +30,13 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(
 
     const isFormField = Boolean(formContext && name);
 
-    const { register, control, getFieldState, formState } = formContext ?? {};
+    const { register, control } = formContext ?? {};
+
+    const fieldFormState = useFormState({
+      control,
+      name: name ?? "",
+      disabled: !isFormField,
+    });
 
     const value = useWatch({
       control,
@@ -39,20 +45,24 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(
     });
 
     const fieldState =
-      isFormField && name ? getFieldState?.(name, formState) : undefined;
+      isFormField && name
+        ? formContext?.getFieldState(name, fieldFormState)
+        : undefined;
 
     const errorMessage = fieldState?.error?.message;
 
     const debouncedError = useDebouncedFieldError(value, errorMessage, 500);
 
     const error = isFormField
-      ? fieldState?.error?.type === "server" || formState?.isSubmitted
+      ? fieldState?.error?.type === "server" || fieldFormState.isSubmitted
         ? errorMessage
         : debouncedError
       : externalError;
 
+    const hasValue = String(value ?? "").trim().length > 0;
+
     const isValid = isFormField
-      ? Boolean(fieldState?.isDirty && !fieldState.error)
+      ? Boolean(hasValue && !fieldState?.invalid)
       : externalIsValid;
 
     const hasError = Boolean(error);
@@ -61,7 +71,7 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(
     const registration = isFormField && name ? register?.(name) : undefined;
 
     return (
-      <div className="flex min-w-0 flex-col gap-2">
+      <div className="flex min-w-0 flex-col gap-3">
         <label
           htmlFor={props.id}
           className={cn(

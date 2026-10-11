@@ -1,30 +1,41 @@
 "use client";
 
+import { useFormContext } from "react-hook-form";
+
 import { useBooking } from "../../context/BookingContext";
 import { Button } from "@/src/components/ui";
 
-const formatPrice = (price: number): string =>
-  Number.isFinite(price)
-    ? price.toLocaleString("en-US", {
-        maximumFractionDigits: 2,
-      })
-    : "0";
+import type { CheckoutFormValues } from "@/src/lib/validation/schemas/checkout.schema";
+import { formatPrice } from "@/src/lib/utils/formatPrice";
 
 const BookingSummaryFooter = () => {
   const {
     selectedSeats,
     subtotal,
     activeStep,
+    hold,
+    remainingSeconds,
     isUpdatingHold,
     isCancelling,
     handleNext,
   } = useBooking();
 
-  const isCheckout = activeStep === "checkout";
-  const isSubmitting = isUpdatingHold || isCancelling;
+  const {
+    formState: { isValid, isSubmitting },
+  } = useFormContext<CheckoutFormValues>();
 
-  const isDisabled =
-    !selectedSeats.length || isSubmitting || !Number.isFinite(subtotal);
+  const isCheckout = activeStep === "checkout";
+  const isBusy = isUpdatingHold || isCancelling;
+
+  const isNextDisabled =
+    !selectedSeats.length || isBusy || !Number.isFinite(subtotal);
+
+  const canPay =
+    Boolean(hold?.isLive) &&
+    remainingSeconds > 0 &&
+    isValid &&
+    !isSubmitting &&
+    !isBusy;
 
   return (
     <div className="mt-auto flex flex-col gap-4 pt-6">
@@ -39,12 +50,20 @@ const BookingSummaryFooter = () => {
       </div>
 
       {isCheckout ? (
-        <Button disabled>Pay: Complete order</Button>
+        <Button
+          type="submit"
+          form="booking-checkout-form"
+          disabled={!canPay}
+          isLoading={isSubmitting}
+        >
+          Pay: Complete order
+        </Button>
       ) : (
         <Button
+          type="button"
           onClick={handleNext}
-          disabled={isDisabled}
-          isLoading={isSubmitting}
+          disabled={isNextDisabled}
+          isLoading={isBusy}
         >
           Next: Checkout
         </Button>

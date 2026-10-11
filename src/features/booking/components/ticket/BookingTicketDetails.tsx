@@ -3,19 +3,48 @@
 import { useMemo } from "react";
 import cn from "classnames";
 
-import { useBooking } from "../../context/BookingContext";
+import type { PaidOrder } from "@/src/types/checkout.types";
+import type { SelectedBookingSeat } from "@/src/types/booking.types";
 
 interface IBookingTicketDetailsProps {
   className?: string;
+  selectedSeats?: SelectedBookingSeat[];
+  availableTicketTypes?: {
+    slug: string;
+    name: string;
+  }[];
+  tickets?: PaidOrder["tickets"];
 }
 
-const BookingTicketDetails = ({ className }: IBookingTicketDetailsProps) => {
-  const { selectedSeats, availableTicketTypes } = useBooking();
-
+const BookingTicketDetails = ({
+  className,
+  selectedSeats = [],
+  availableTicketTypes = [],
+  tickets,
+}: IBookingTicketDetailsProps) => {
   const { seatCodes, ticketSummary } = useMemo(() => {
+    if (tickets) {
+      const seatCodes = tickets.map(({ seatCode }) => seatCode).join(", ");
+
+      const counts = tickets.reduce<Record<string, number>>(
+        (acc, { ticketType }) => {
+          acc[ticketType.name] = (acc[ticketType.name] ?? 0) + 1;
+          return acc;
+        },
+        {},
+      );
+
+      return {
+        seatCodes,
+        ticketSummary: Object.entries(counts)
+          .map(([name, count]) => `${count} x ${name}`)
+          .join(", "),
+      };
+    }
+
     const seatCodes = selectedSeats.map(({ seat }) => seat.code).join(", ");
 
-    const ticketCounts = selectedSeats.reduce<Record<string, number>>(
+    const counts = selectedSeats.reduce<Record<string, number>>(
       (acc, { ticketTypeSlug }) => {
         acc[ticketTypeSlug] = (acc[ticketTypeSlug] ?? 0) + 1;
         return acc;
@@ -23,18 +52,19 @@ const BookingTicketDetails = ({ className }: IBookingTicketDetailsProps) => {
       {},
     );
 
-    const ticketSummary = Object.entries(ticketCounts)
-      .map(([slug, count]) => {
-        const ticketType = availableTicketTypes.find(
-          (type) => type.slug === slug,
-        );
+    return {
+      seatCodes,
+      ticketSummary: Object.entries(counts)
+        .map(([slug, count]) => {
+          const type = availableTicketTypes.find(
+            ({ slug: typeSlug }) => typeSlug === slug,
+          );
 
-        return `${count} x ${ticketType?.name ?? slug}`;
-      })
-      .join(", ");
-
-    return { seatCodes, ticketSummary };
-  }, [selectedSeats, availableTicketTypes]);
+          return `${count} x ${type?.name ?? slug}`;
+        })
+        .join(", "),
+    };
+  }, [tickets, selectedSeats, availableTicketTypes]);
 
   return (
     <div className={cn("flex flex-col gap-2 pt-2.5", className)}>

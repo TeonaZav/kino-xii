@@ -39,7 +39,7 @@ const TicketTypeSelector = ({
             title={type.note ?? undefined}
             aria-pressed={isSelected}
             className={cn(
-              "px-2! py-2! 2xl:text-[10px]!",
+              "px-2! py-2! !text-[10px]",
               "transition-colors",
               isSelected
                 ? "bg-red! text-white!"

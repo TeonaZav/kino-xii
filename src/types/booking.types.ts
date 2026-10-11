@@ -1,3 +1,5 @@
+import { Session } from "./session.types";
+
 export type SeatState = "available" | "sold" | "held" | "unavailable";
 
 export type HallSeat = {
@@ -68,4 +70,11 @@ export type BookingHold = {
   isLive: boolean;
   subtotal: number;
   seats: BookingHoldSeat[];
+};
+
+export type TicketSessionInfo = Pick<Session, "date" | "time"> & {
+  hall: Pick<Session["hall"], "name">;
+  venue: Pick<Session["venue"], "name">;
+  format?: Pick<Session["format"], "name">;
+  language?: Pick<Session["language"], "name">;
 };

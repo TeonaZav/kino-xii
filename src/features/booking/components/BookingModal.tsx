@@ -20,6 +20,7 @@ interface IBookingModalProps {
   initialHold?: BookingHold | null;
   onAuthenticationRequired?: () => void;
   onProfileRequired?: () => void;
+  onViewTickets?: () => void;
 }
 
 const BookingModal = ({
@@ -29,6 +30,7 @@ const BookingModal = ({
   initialHold = null,
   onAuthenticationRequired,
   onProfileRequired,
+  onViewTickets,
 }: IBookingModalProps) => {
   const cancelRef = useRef<(() => Promise<void>) | null>(null);
 
@@ -94,6 +96,8 @@ const BookingModal = ({
             session={session}
             onClose={onClose}
             registerCancel={registerCancel}
+            onUnauthorized={onAuthenticationRequired ?? openLogin}
+            onViewTickets={onViewTickets}
           />
         </BookingProvider>
       )}
