@@ -10,6 +10,8 @@ import {
   type ReactNode,
 } from "react";
 
+import axios from "axios";
+
 import {
   getAuthToken,
   getAuthUser,
@@ -19,6 +21,8 @@ import {
   setAuthUser,
 } from "@/src/lib/utils/auth";
 
+import { getMe } from "@/src/lib/api/auth";
+
 import type {
   AuthData,
   AuthModalMode,
@@ -26,12 +30,13 @@ import type {
   PendingAuthAction,
 } from "@/src/types/auth.types";
 
+import type { AuthTransitionState } from "@/src/types/feedback.types";
+
+import { AuthAction } from "@/src/lib/constants/messages";
+import { AUTH_SUCCESS_DURATION } from "@/src/lib/constants/auth";
+
 import AuthModalRoot from "@/src/features/auth/components/AuthModalRoot";
 import AuthTransitionOverlay from "@/src/features/auth/components/AuthTransitionOverlay";
-
-import { AuthTransitionState } from "../types/feedback.types";
-import { AuthAction } from "../lib/constants/messages";
-import { AUTH_SUCCESS_DURATION } from "../lib/constants/auth";
 
 interface IAuthContext {
   user: AuthUser | null;
@@ -47,6 +52,7 @@ interface IAuthContext {
   requireAuth: (action: () => void) => void;
   handleAuthSuccess: (data: AuthData) => void;
   updateUser: (user: AuthUser) => void;
+  refreshUser: () => Promise<AuthUser>;
   clearAuth: () => void;
 
   authTransition: AuthTransitionState | null;
@@ -63,14 +69,19 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthLoading, setIsAuthLoading] = useState(true);
 
   const [authMode, setAuthMode] = useState<AuthModalMode>(null);
+
   const [authTransition, setAuthTransition] =
     useState<AuthTransitionState | null>(null);
 
   const pendingActionRef = useRef<PendingAuthAction>(null);
+
   const transitionRef = useRef<AuthTransitionState | null>(null);
+
   const transitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
     null,
   );
+
+  const authVersionRef = useRef(0);
 
   const clearTransitionTimeout = useCallback(() => {
     if (transitionTimeoutRef.current !== null) {
@@ -79,19 +90,122 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  useEffect(() => {
-    const storedToken = getAuthToken();
-    const storedUser = getAuthUser();
+  const updateUser = useCallback((updatedUser: AuthUser) => {
+    setAuthUser(updatedUser);
+    setUser(updatedUser);
+  }, []);
 
-    if (storedToken) {
-      setToken(storedToken);
-      setUser(storedUser);
-    } else {
-      removeAuthUser();
+  const clearAuth = useCallback(() => {
+    authVersionRef.current += 1;
+
+    removeAuthToken();
+    removeAuthUser();
+
+    setToken(null);
+    setUser(null);
+    setAuthMode(null);
+
+    pendingActionRef.current = null;
+  }, []);
+
+  const refreshUser = useCallback(async (): Promise<AuthUser> => {
+    const currentToken = getAuthToken();
+
+    if (!currentToken) {
+      throw new Error("Authentication is required.");
     }
 
-    setIsAuthLoading(false);
-  }, []);
+    const requestVersion = authVersionRef.current;
+
+    try {
+      const currentUser = await getMe();
+
+      if (
+        requestVersion !== authVersionRef.current ||
+        getAuthToken() !== currentToken
+      ) {
+        throw new Error("Authentication session changed.");
+      }
+
+      updateUser(currentUser);
+
+      return currentUser;
+    } catch (error) {
+      if (
+        axios.isAxiosError(error) &&
+        error.response?.status === 401 &&
+        requestVersion === authVersionRef.current &&
+        getAuthToken() === currentToken
+      ) {
+        clearAuth();
+      }
+
+      throw error;
+    }
+  }, [updateUser, clearAuth]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const initializeAuth = async () => {
+      const storedToken = getAuthToken();
+
+      if (!storedToken) {
+        removeAuthUser();
+
+        setToken(null);
+        setUser(null);
+        setIsAuthLoading(false);
+
+        return;
+      }
+
+      setToken(storedToken);
+
+      const requestVersion = authVersionRef.current;
+
+      try {
+        const currentUser = await getMe();
+
+        if (
+          cancelled ||
+          requestVersion !== authVersionRef.current ||
+          getAuthToken() !== storedToken
+        ) {
+          return;
+        }
+
+        updateUser(currentUser);
+      } catch (error) {
+        if (
+          cancelled ||
+          requestVersion !== authVersionRef.current ||
+          getAuthToken() !== storedToken
+        ) {
+          return;
+        }
+
+        if (axios.isAxiosError(error) && error.response?.status === 401) {
+          clearAuth();
+        } else {
+          console.error("Unable to restore user session:", error);
+
+          // Preserve the cached user during temporary network errors.
+          setUser(getAuthUser());
+        }
+      } finally {
+        if (!cancelled) {
+          setIsAuthLoading(false);
+        }
+      }
+    };
+
+    void initializeAuth();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [updateUser, clearAuth]);
 
   useEffect(() => {
     return () => {
@@ -101,11 +215,13 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const openLogin = useCallback(() => {
     if (transitionRef.current) return;
+
     setAuthMode("login");
   }, []);
 
   const openSignUp = useCallback(() => {
     if (transitionRef.current) return;
+
     setAuthMode("signup");
   }, []);
 
@@ -130,27 +246,15 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const handleAuthSuccess = useCallback((data: AuthData) => {
+    authVersionRef.current += 1;
+
     setAuthToken(data.token);
     setAuthUser(data.user);
 
     setToken(data.token);
     setUser(data.user);
-  }, []);
 
-  const updateUser = useCallback((updatedUser: AuthUser) => {
-    setAuthUser(updatedUser);
-    setUser(updatedUser);
-  }, []);
-
-  const clearAuth = useCallback(() => {
-    removeAuthToken();
-    removeAuthUser();
-
-    setToken(null);
-    setUser(null);
-    setAuthMode(null);
-
-    pendingActionRef.current = null;
+    setIsAuthLoading(false);
   }, []);
 
   const startAuthTransition = useCallback(
@@ -178,6 +282,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const completeAuthTransition = useCallback(
     (onComplete?: () => void) => {
       const current = transitionRef.current;
+
       if (!current) return;
 
       const successTransition: AuthTransitionState = {
@@ -230,6 +335,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       requireAuth,
       handleAuthSuccess,
       updateUser,
+      refreshUser,
       clearAuth,
 
       authTransition,
@@ -248,6 +354,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       requireAuth,
       handleAuthSuccess,
       updateUser,
+      refreshUser,
       clearAuth,
       authTransition,
       startAuthTransition,

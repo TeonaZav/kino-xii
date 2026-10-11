@@ -6,6 +6,7 @@ import cn from "classnames";
 
 import useDebouncedFieldError from "@/src/hooks/useDebouncedFieldError";
 import { Icon } from "@/src/components/ui";
+import InputLabel from "./Label";
 
 interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -72,15 +73,9 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(
 
     return (
       <div className="flex min-w-0 flex-col gap-3">
-        <label
-          htmlFor={props.id}
-          className={cn(
-            "text-xs font-semibold",
-            hasError ? "text-error" : "text-primary",
-          )}
-        >
+        <InputLabel htmlFor={props.id} hasError={hasError}>
           {label}
-        </label>
+        </InputLabel>
 
         <div className="relative">
           <input

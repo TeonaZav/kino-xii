@@ -1,13 +1,7 @@
-import ProfileTabs from "@/src/features/profile/components/ProfileTabs";
+import ProfilePageContent from "@/src/features/profile/components/ProfilePageContent";
 
-export default function ProfilePage() {
-  return (
-    <>
-      <h1>My Profile</h1>
+const Page = () => {
+  return <ProfilePageContent />;
+};
 
-      <ProfileTabs />
-
-      {/* selected tab */}
-    </>
-  );
-}
+export default Page;

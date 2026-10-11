@@ -8,6 +8,7 @@ interface IUserMenuHeaderProps {
 }
 
 const UserMenuHeader = ({ user }: IUserMenuHeaderProps) => {
+  console.log(user);
   const displayName = user.fullName?.trim() || user.username;
   const isProfileComplete = user.profileComplete;
 

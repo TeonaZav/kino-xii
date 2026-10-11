@@ -1,6 +1,10 @@
 import apiClient from "./client";
 
-import type { AuthResponse } from "@/src/types/auth.types";
+import type {
+  AuthResponse,
+  AuthUser,
+  GetMeResponse,
+} from "@/src/types/auth.types";
 import type { LoginFormValues } from "@/src/features/auth/schemas/loginSchema";
 import type { SignUpFormValues } from "@/src/features/auth/schemas/signUpSchema";
 
@@ -33,4 +37,10 @@ export const register = async (
 
 export const logout = async (): Promise<void> => {
   await apiClient.post("/logout");
+};
+
+export const getMe = async (): Promise<AuthUser> => {
+  const { data } = await apiClient.get<GetMeResponse>("/me");
+
+  return data.data;
 };

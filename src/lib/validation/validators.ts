@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import { format, isValid, parseISO } from "date-fns";
 
 const MAX_AVATAR_SIZE = 2 * 1024 * 1024;
 
@@ -90,6 +91,23 @@ const cvvValidation = yup
   .required("CVV is required.")
   .matches(/^\d{3}$/, "CVV must contain 3 digits.");
 
+const dateOfBirthValidation = yup
+  .string()
+  .required("Date of birth is required.")
+  .test("valid-date", "Enter a valid date of birth.", (value) => {
+    if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+      return false;
+    }
+
+    const date = parseISO(value);
+
+    return (
+      isValid(date) &&
+      format(date, "yyyy-MM-dd") === value &&
+      date <= new Date()
+    );
+  });
+
 export const validators = {
   email: emailValidation,
   password: passwordValidation,
@@ -98,6 +116,7 @@ export const validators = {
   avatar: avatarValidation,
   fullName: fullNameValidation,
   mobileNumber: mobileNumberValidation,
+  dateOfBirth: dateOfBirthValidation,
   cardNumber: cardNumberValidation,
   cardExpiry: cardExpiryValidation,
   cvv: cvvValidation,
