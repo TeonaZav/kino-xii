@@ -1,13 +1,10 @@
-import type { HallRow, HallSeat } from "@/src/types/booking.types";
 import Seat from "./Seat";
-
+import type { HallRow } from "@/src/types/booking.types";
 interface ISeatRowProps {
   row: HallRow;
-  selectedSeatIds: number[];
-  onSeatSelect: (seat: HallSeat) => void;
 }
 
-const SeatRow = ({ row, selectedSeatIds, onSeatSelect }: ISeatRowProps) => {
+const SeatRow = ({ row }: ISeatRowProps) => {
   return (
     <div className="flex items-center gap-3">
       <span className="shrink-0 text-center text-xs font-semibold">
@@ -17,11 +14,7 @@ const SeatRow = ({ row, selectedSeatIds, onSeatSelect }: ISeatRowProps) => {
       <div className="flex items-center gap-2">
         {row.seats.map((seat) => (
           <div key={seat.id} className={seat.aisleAfter ? "mr-8" : ""}>
-            <Seat
-              seat={seat}
-              isSelected={selectedSeatIds.includes(seat.id)}
-              onSelect={onSeatSelect}
-            />
+            <Seat seat={seat} />
           </div>
         ))}
       </div>
